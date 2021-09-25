@@ -1,0 +1,9 @@
+export const MAIN = '#1DA1F2';
+export const LIGHT_GREY = '#F7F9FA';
+export const ERROR = '#ED2966';
+export const TEXT = '#1C242C';
+export const GREY = '#CCD4E1';
+export const LITTLE_TEXT = '#5B7083';
+export const LIGHT_BLUE = '#E8F5FE';
+export const GREEN = '#4ECD88';
+export const LIGHT_BLUE_DARK = '#E2EEF7';
