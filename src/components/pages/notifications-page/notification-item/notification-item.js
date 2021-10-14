@@ -31,12 +31,12 @@ const NotificationItem = (props) => {
         <ButtonBase className={classes.buttonBase} onClick={onItemClick}>
             <Box width="100%" display="flex" flexDirection="row" p={1} borderBottom="1px solid #CCD4E1">
                 <Box p={1} display="flex" alignItems="flex-start">
-                    <img
+                    <Avatar
                         className={classes.avatar}
                         alt="Remy Sharp"
                         src={item.icon}
                     >
-                    </img>
+                    </Avatar>
                 </Box>
                     <Box ml={1} py={1} color="black">
                         <Typography color="inherit" variant="subtitle1">
