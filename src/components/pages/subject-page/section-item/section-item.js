@@ -35,11 +35,11 @@ function SectionItem(props) {
             <Accordion square expanded={expanded === `panel_${index}`} onChange={handleChange(`panel_${index}`)}>
                 <AccordionSummary>
                     <Box display="flex" flexDirection="row" alignItems="center">
-                        <Typography className={classes.sectionNumber}>1</Typography>
+                        <Typography className={classes.sectionNumber}>{index + 1}</Typography>
                         <Typography>{title}</Typography>
                     </Box>
                     <Box ml="auto">
-                        <Typography customVariant="subtitleRoboto">14/25</Typography>
+                        <Typography customVariant="subtitleRoboto">1/{topics.length}</Typography>
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>

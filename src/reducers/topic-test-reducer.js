@@ -56,7 +56,7 @@ export default function(state = initialState, action) {
                 ...state,
                 originalQuestions: tests,
                 questions: setQuestions(tests),
-                currentQuestionId: tests[0].id ?? 0,
+                currentQuestionId: tests[0]?.id ?? 0,
             }
         case actionTypes.QUESTION_ANSWERED:
             const { questionId, answerId } = action.payload;

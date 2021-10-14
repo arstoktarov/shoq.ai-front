@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '192px',
         outline: 0,
         "&::-webkit-scrollbar": {
-            display: "none",
+            //display: "none",
         }
     },
     header: {
@@ -92,7 +92,7 @@ function CrudModal(props) {
             }}
         >
             <Fade in={open}>
-                <Box width={props.width} className={classes.paper} overflow="scroll" maxHeight="100vh">
+                <Box id="scrollableDiv" width={props.width} className={classes.paper} overflow="scroll" maxHeight="100vh">
                     <Box className={classes.header}>
                         <IconButton onClick={() => {onClose()}} color="primary">
                             <CloseIcon />

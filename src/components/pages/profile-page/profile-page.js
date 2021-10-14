@@ -6,7 +6,6 @@ import {
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import Button from "components/mui-customized/Button";
 import Typography from "components/mui-customized/Typography";
-
 import useStyles from "./styles";
 import {withStyles} from "@material-ui/core/styles";
 import FilledIconButton from "components/mui-customized/FilledIconButton";
@@ -16,6 +15,7 @@ import {useHistory} from "react-router-dom";
 import Backdrop from "@material-ui/core/Backdrop";
 import CrudModal from "components/crud-modal/crud-modal";
 import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
+import TrialStatisticsSection from "components/pages/profile-page/trial-statistics-section";
 
 
 const Link = withStyles({
@@ -64,8 +64,6 @@ const ProfilePage = (props) => {
     const handleEditProfileSubmit = (e) => {
         editProfile(editProfileValues);
     }
-
-    console.log(editProfileValues);
 
     const {
         avatar = null,
@@ -178,7 +176,9 @@ const ProfilePage = (props) => {
                     </Box>
                 </Box>
                 <Box className={classes.card}>
-                    <Box height="500px" />
+                    <Box height="500px">
+                        <TrialStatisticsSection />
+                    </Box>
                 </Box>
 
                 <CrudModal

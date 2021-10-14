@@ -37,7 +37,7 @@ const SubjectsPage = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const { list = [], loadSubjects } = props;
+    const { list = [], loadSubjects, loading } = props;
 
     const [modalOpen, setModalOpen] = useState(true);
 
@@ -51,6 +51,9 @@ const SubjectsPage = (props) => {
 
     return (
         <MainLayout>
+            <Backdrop style={{zIndex: 99999}} open={loading}>
+                <CircularProgress />
+            </Backdrop>
             <Box px={3} py={2} display="flex" flexDirection="row" flexWrap="wrap">
                 <div className={classes.root}>
                     {
@@ -118,6 +121,7 @@ const SubjectsPage = (props) => {
 const mapStateToProps = ({ subjectList }) => {
     return {
         list: subjectList.list,
+        loading: subjectList.loading,
     };
 };
 
