@@ -5,6 +5,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import DoneRoundedIcon from "@material-ui/icons/DoneRounded";
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import {useHistory} from "react-router-dom";
+import {useSnackbar} from "notistack";
 
 const useStyles = makeStyles({
     itemNumber: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
 const TopicItem = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
 
     const { idx, id, title = "loading...", completed, active, available } = props;
 
@@ -36,7 +38,12 @@ const TopicItem = (props) => {
     }
 
     const onTopicClick = (e) => {
-        history.push(location.pathname + `/topics/${id}`);
+        if (active) {
+            history.push(location.pathname + `/topics/${id}`);
+        }
+        else {
+            enqueueSnackbar('Пройдите предыдущую тему.', {variant: "error"});
+        }
     }
 
     const getTopicStatus = () => {

@@ -10,7 +10,8 @@ export const loadSubject = (subjectId) => {
 
             console.log("This one:", data);
 
-            const { isBought, freeTopics, completedTopics, currentState: { topic: activeTopic } } = data;
+            const { isBought, freeTopics, completedTopics, sections, currentState: { topic: activeTopic } } = data;
+            console.log(activeTopic);
 
             const subject = {
                 ...data,
@@ -20,7 +21,7 @@ export const loadSubject = (subjectId) => {
                         topics: section.topics.map((topic) => {
                             return {
                                 ...topic,
-                                active: topic.id === activeTopic,
+                                active: topic.id === (activeTopic === 0 ? sections[0].topics[0].id : activeTopic),
                                 completed: completedTopics.includes(topic.id),
                                 available: (isBought || freeTopics.includes(topic.id)),
                             }
