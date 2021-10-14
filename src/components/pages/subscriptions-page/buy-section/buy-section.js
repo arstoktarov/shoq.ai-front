@@ -96,7 +96,7 @@ const BuySection = (props) => {
             language: "KZ",
         });
         const { PgRedirectURL } = data;
-        window.location.href = PgRedirectURL;
+        //window.location.href = PgRedirectURL;
     }
 
     const handleRequestClick = () => {
