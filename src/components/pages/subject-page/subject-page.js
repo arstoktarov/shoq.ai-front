@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Box} from "@material-ui/core";
+import {Backdrop, Box, CircularProgress} from "@material-ui/core";
 import SectionList from "components/pages/subject-page/section-list/section-list";
 import MainLayout from "components/layouts/main-layout";
 import Breadcrumb from "components/mui-customized/breadcrumb";
@@ -13,7 +13,7 @@ const SubjectPage = (props) => {
     const { subjectId } = useParams();
     const history = useHistory();
 
-    const { loadSubject, subject } = props;
+    const { loadSubject, subject, loading } = props;
 
     useEffect(() => {
         loadSubject(subjectId);
@@ -24,6 +24,9 @@ const SubjectPage = (props) => {
 
     return (
         <MainLayout>
+            <Backdrop style={{zIndex: 99999}} open={loading}>
+                <CircularProgress />
+            </Backdrop>
             <Box p={2} maxWidth="700px">
                 <Box display="flex" flexDirection="row" alignItems="center">
                     <Box width="70%">

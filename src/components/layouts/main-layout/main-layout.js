@@ -7,6 +7,8 @@ import {ListItemLink} from "components/menu/List";
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import {ExamIcon, GiftIcon, ProfileIcon, StatisticsIcon, StudyIcon} from "components/icons";
 import {CoursesIcon} from "components/icons/icons";
+import PaymentIcon from '@material-ui/icons/Payment';
+import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -39,11 +41,12 @@ const MainLayout = (props) => {
                     <Menu>
                         <ListItemLink selected={location.pathname.startsWith('/profile')} primary="Профиль" to={'/profile'} icon={<ProfileIcon />} />
                         <ListItemLink selected={location.pathname.startsWith('/subjects')} primary="Курсы" to={'/subjects'} icon={<CoursesIcon />} />
-                        <ListItemLink selected={location.pathname.startsWith('/prizes')} primary="Призы" to={'/'} icon={<GiftIcon />} />
+                        {/*<ListItemLink selected={location.pathname.startsWith('/prizes')} primary="Призы" to={'/'} icon={<GiftIcon />} />*/}
                         <ListItemLink selected={location.pathname.startsWith('/trial')} primary="Пробный Тест" to={'/trial'} icon={<ExamIcon />} />
-                        <ListItemLink selected={location.pathname.startsWith('/universities')} primary="Вузы" to={'/'} icon={<StudyIcon />} />
-                        <ListItemLink selected={location.pathname.startsWith('/stats')} primary="Статистика" to={'/'} icon={<StatisticsIcon />} />
+                        {/*<ListItemLink selected={location.pathname.startsWith('/universities')} primary="Вузы" to={'/'} icon={<StudyIcon />} />*/}
+                        {/*<ListItemLink selected={location.pathname.startsWith('/stats')} primary="Статистика" to={'/'} icon={<StatisticsIcon />} />*/}
                         <ListItemLink selected={location.pathname.startsWith('/notifications')} primary="Уведомления" to={'/notifications'} icon={<NotificationsNoneIcon />} />
+                        <ListItemLink selected={location.pathname.startsWith('/subscriptions')} primary="Подписки" to={'/subscriptions'} icon={<AccountBalanceWalletOutlinedIcon />} />
                     </Menu>
                 }
                 <Box gridArea="main">

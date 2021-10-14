@@ -23,7 +23,7 @@ const NotificationsPage = (props) => {
     }
 
     const onNotificationClick = (item) => {
-
+        const { payload: { status } } = item;
     }
 
     return (

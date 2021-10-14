@@ -30,8 +30,6 @@ const AssignmentSection = (props) => {
     const { items = [1], tasks = [1], studentMessages = [1], moderatorMessages = [], replyTask, answeredTaskIds = [] } = props;
     const [replyTo, setReplyTo] = useState(null);
 
-    console.log(moderatorMessages);
-
     const handleChatSendClick = ({replyTo, message, image}) => {
         console.log(replyTo);
         replyTask({
@@ -40,6 +38,7 @@ const AssignmentSection = (props) => {
             message: message,
             image: image,
         });
+        setReplyTo(null);
     }
 
     const handleAnswerClick = (task) => {

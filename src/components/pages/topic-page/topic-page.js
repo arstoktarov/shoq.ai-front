@@ -42,7 +42,6 @@ const TopicPage = (props) => {
                 <Box display="flex" justifyContent="flex-start">
                     <Breadcrumb
                         onClick={() => {history.push(`/subjects/${subjectId}`)}}
-                        height="50px"
                         primaryText={subject.name}
                         secondaryText={topic.name}
                     />

@@ -1,36 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Badge as MuiBadge, Box, Tab as MuiTab} from "@material-ui/core";
+import {Backdrop, Badge as MuiBadge, Box, CircularProgress, Tab as MuiTab} from "@material-ui/core";
 import Header from "components/header/header";
 import {withStyles} from "@material-ui/core/styles";
 import SubscriptionItem from "components/pages/subscriptions-page/subscription-item";
 import Typography from "components/mui-customized/Typography";
 import {loadSubscriptions} from "actions/subscriptions-page-actions";
 import {connect} from "react-redux";
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {},
-//     subscription: {
-//         maxWidth: "250px",
-//         backgroundColor: "#F7F9FA",
-//         boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.15)",
-//         borderRadius: "20px",
-//         boxSizing: "border-box",
-//         position: "relative",
-//     },
-//     hot: {
-//         display: "flex",
-//         flexDirection: "row",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         transform: "rotate(0.125turn)",
-//         position: "absolute",
-//         backgroundColor: theme.palette.primary.main,
-//         right: "-100px",
-//         top: "10px",
-//         width: "100%",
-//         height: "20px",
-//     },
-// }));
+import BuySection from "components/pages/subscriptions-page/buy-section";
 
 const Tab = withStyles((theme) => ({
     root: {
@@ -62,47 +38,16 @@ const Badge = withStyles(() => ({
     },
 }))(MuiBadge);
 
-const rows = [
-    {
-        title: "Полный доступ на видеоуроки",
-        disabled: false,
-    },
-    {
-        title: "Тесты коп соз",
-        disabled: false,
-    },
-    {
-        title: "Задания коп",
-        disabled: false,
-    },
-    {
-        title: "Индивидуальный куратор",
-        disabled: false,
-    },
-    {
-        title: "Возможность участия в БАЙГЕ",
-        disabled: true,
-    },
-    {
-        title: "То се. еринип калдым кошируге еркеден",
-        disabled: true,
-    },
-    {
-        title: "То се. еринип калдым кошируге еркеден",
-        disabled: true,
-    },
-];
-
 const tabs = [
     1, 3, 6, 9, 12
 ];
 
 const SubscriptionsPage = (props) => {
-    const [currentTab, setCurrentTab] = useState(1);
+    const [currentTab, setCurrentTab] = useState(3);
 
-    const { subscriptions = [], loadSubscriptions } = props;
+    const { loading, subscriptions = [], loadSubscriptions, selectives, selectiveId, selectivePairId } = props;
 
-    console.log(subscriptions);
+    const [buyOption, setBuyOption] = useState(null);
 
     useEffect(() => {
         loadSubscriptions();
@@ -113,13 +58,55 @@ const SubscriptionsPage = (props) => {
     }
 
     const getPriceByTab = (item) => {
-        console.log(item);
-        return item.priceByTime.find(({ time }) => time === currentTab)?.price ?? 0;
+        const { priceByTime } = item;
+        return priceByTime.find(({ time }) => time === currentTab)?.price ?? 0;
     }
+
+    const handleBuyClick = ({ packageType, optionType }) => (event) => {
+        setBuyOption({
+            packageType,
+            optionType,
+        });
+    }
+
+    const priceListSection = (
+        <React.Fragment>
+            <Box mt={5} display="flex" flexDirection="row" flexWrap="wrap" justifyContent="space-between">
+                {
+                    subscriptions.map(({packageType, options, title, features, nots}) => (
+                        <Box alignSelf="flex-start" key={packageType} position="relative" display="flex" flexDirection="column">
+                            <Box top="20%" borderLeft="2px dashed #1DA1F2" height="70%" position="absolute" left="50%">
+                            </Box>
+                            <Box height="420px">
+                                <SubscriptionItem title={title} features={features} nots={nots} />
+                            </Box>
+                            {
+                                options.map((option) => (
+                                    <Box height="250px" key={option.optionType} mt={10}>
+                                        <SubscriptionItem
+                                            buyable
+                                            onBuyClick={handleBuyClick({ packageType, optionType: option.optionType })}
+                                            selectives={selectives}
+                                            title={`${option.optionType} предметов`}
+                                            features={option.subjects}
+                                            price={getPriceByTab(option)}
+                                        />
+                                    </Box>
+                                ))
+                            }
+                        </Box>
+                    ))
+                }
+            </Box>
+        </React.Fragment>
+    );
 
     return (
         <Box>
             <Header />
+            <Backdrop style={{zIndex: 99999}} open={loading}>
+                <CircularProgress />
+            </Backdrop>
             <Box p={5} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                 <Box width="800px" flexDirection="column" display="flex" justifyContent="center">
                     <Box height="150px">
@@ -130,7 +117,7 @@ const SubscriptionsPage = (props) => {
                     </Box>
                     <Box display="flex" flexDirection="row" justifyContent="center">
                         {
-                            tabs.map((item, idx) => (
+                            tabs.map((item) => (
                                 <Box key={item} mx={2}>
                                     <Badge badgeContent="-15%" anchorOrigin={{
                                         vertical: 'bottom',
@@ -142,31 +129,16 @@ const SubscriptionsPage = (props) => {
                             ))
                         }
                     </Box>
-                    <Box mt={5} display="flex" flexDirection="row" flexWrap="wrap" justifyContent="space-between">
-                        {
-                            subscriptions.map((item, idx) => (
-                                <Box alignSelf="flex-start" key={item.packageType} position="relative" display="flex" flexDirection="column">
-                                    <Box top="20%" borderLeft="2px dashed #1DA1F2" height="70%" position="absolute" left="50%">
-                                    </Box>
-                                    <Box height="470px">
-                                        <SubscriptionItem title={item.title} features={item.features} nots={item.nots} />
-                                    </Box>
-                                    {
-                                        item.options.map((option, idx) => (
-                                            <Box height="250px" key={option.optionType} mt={10}>
-                                                <SubscriptionItem
-                                                    withBuyButton
-                                                    title={`${option.optionType} предметов`}
-                                                    features={option.subjects}
-                                                    price={getPriceByTab(option)}
-                                                />
-                                            </Box>
-                                        ))
-                                    }
-                                </Box>
-                            ))
-                        }
-                    </Box>
+                    {
+                        buyOption ?
+                            <BuySection
+                                subscriptions={subscriptions}
+                                buyOption={buyOption}
+                                currentTab={currentTab}
+                            />
+                        :
+                            priceListSection
+                    }
                     <Box mt={10} height="150px">
                         <Typography fontFamily="Roboto" variant="h5">Возникли вопросы?</Typography>
                         <Box mt={2}>
@@ -182,12 +154,16 @@ const SubscriptionsPage = (props) => {
     );
 }
 
-const mapStateToProps = ({ subscriptionsPage: { subscriptions } }) => ({
+const mapStateToProps = ({ subscriptionsPage: { subscriptions, selectives, selectiveId, selectivePairId, loading } }) => ({
+    loading,
     subscriptions,
+    selectives,
+    selectiveId,
+    selectivePairId
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    loadSubscriptions: () => dispatch(loadSubscriptions()),
+    "loadSubscriptions": () => dispatch(loadSubscriptions()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionsPage);

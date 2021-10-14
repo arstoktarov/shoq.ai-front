@@ -6,10 +6,11 @@ import Typography from "components/mui-customized/Typography";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const useStyles = makeStyles((theme) => ({
-    buttonBase: {
+    buttonBase: (props) => ({
+        backgroundColor: !props.item.isRead ? "#ebebeb" : "",
         textAlign: "start",
         width: "100%",
-    },
+    }),
     avatar: {
         width: "50px",
         height: "50px",
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NotificationItem = (props) => {
-    const classes = useStyles();
+    const classes = useStyles(props);
     const history = useHistory();
 
     const { item, onClick } = props;

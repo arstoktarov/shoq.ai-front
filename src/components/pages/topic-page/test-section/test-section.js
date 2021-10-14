@@ -14,6 +14,7 @@ import {
 } from "actions/topic-test-actions";
 import AnswerItem from "components/pages/topic-page/test-section/answer-item";
 import {useParams} from "react-router-dom";
+import {loadTopic} from "actions/topic-actions";
 
 const useStyles = makeStyles({
     primaryText: {
@@ -37,7 +38,7 @@ const TestSection = (props) => {
     const classes = useStyles();
     const {topicId} = useParams();
 
-    const { topic, questions, testResults, questionAnswered, testDone, currentQuestionId, changeCurrentQuestion, testDoneAction, testRetryAction, finishTest } = props;
+    const { topic, loadinTopic, questions, testResults, questionAnswered, testDone, currentQuestionId, changeCurrentQuestion, testDoneAction, testRetryAction, finishTest } = props;
 
     const [fade, setFade] = useState(true);
 
@@ -63,6 +64,7 @@ const TestSection = (props) => {
             topicId: topicId,
             correctCount: questions.filter(question => question.isCorrect).length,
         });
+        loadTopic();
     }
 
     const showTestDoneView = () => {
@@ -151,6 +153,7 @@ const mapStateToProps = ({ topicTest }) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        loadTopic: (topicId) => dispatch(loadTopic(topicId)),
         questionAnswered: payload => dispatch(questionAnswered(payload)),
         changeCurrentQuestion: payload => dispatch(currentQuestionIdChanged(payload)),
         testDoneAction: payload => dispatch(topicTestDone(payload)),

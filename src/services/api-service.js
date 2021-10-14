@@ -246,6 +246,11 @@ class ApiService {
         return data;
     }
 
+    getSelectivesUnauthed = async () => {
+        const { data } = await this.session.get('/unauthed/selectives/get');
+        return data;
+    }
+
     setSelectives = async (selectiveFirst, selectiveSecond) => {
         const { data } = await this.session.post('/authed/selectives/set', {
             selectiveFirst,
@@ -334,7 +339,34 @@ class ApiService {
     }
 
     getPriceList = async () => {
-        const { data } = await this.session.get('/authed/payment/priceList');
+        const { data } = await this.session.get('/unauthed/payment/priceList');
+        return data;
+    }
+
+    buyPackage = async ({ packageType, optionType, priceId, subjectGlobalIds, language }) => {
+        const { data } = await this.session.post('/authed/payment/buy', { packageType, optionType, priceId, subjectGlobalIds, language });
+        return data;
+    }
+
+    regions = async () => {
+        const { data } = await this.session.get('/authed/univer/region_list');
+        return data;
+    }
+
+    univerList = async (page = 1, regionIds = [], search = "") => {
+        const { data } = await this.session.post('/authed/univer/univer_list', {
+            page,
+            regionIds,
+            search
+        });
+        return data;
+    }
+
+    majorList = async (page = 1, search = '') => {
+        const { data } = await this.session.post('/authed/univer/major_list', {
+            page,
+            search
+        });
         return data;
     }
 }
