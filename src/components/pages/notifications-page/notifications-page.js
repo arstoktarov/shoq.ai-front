@@ -29,7 +29,6 @@ const NotificationsPage = (props) => {
     return (
         <MainLayout>
             <Box width="800px">
-                <Breadcrumb height="55px" primaryText="Физика" onClick={() => {history.goBack()}}/>
                 {props.loading ? '' : <NotificationList onItemClick={onNotificationClick} items={notifications}/>}
                 <Box mt={5} display="flex" flexDirection="column" alignItems="center" width="100%" height="50px">
                     <Pagination
