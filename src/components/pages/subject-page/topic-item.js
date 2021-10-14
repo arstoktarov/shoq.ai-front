@@ -42,7 +42,7 @@ const TopicItem = (props) => {
             history.push(location.pathname + `/topics/${id}`);
         }
         else {
-            enqueueSnackbar('Пройдите предыдущие темы.', {variant: "error"});
+            enqueueSnackbar('Закончите предыдущие темы.', {variant: "error"});
         }
     }
 
