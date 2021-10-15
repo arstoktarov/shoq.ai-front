@@ -21,7 +21,7 @@ export const loadSubject = (subjectId) => {
                         topics: section.topics.map((topic) => {
                             return {
                                 ...topic,
-                                active: topic.id === (activeTopic === 0 ? sections[0].topics[0].id : activeTopic),
+                                active: topic.id === (activeTopic === 0 ? sections[0]?.topics[0]?.id ?? 0 : activeTopic),
                                 completed: completedTopics.includes(topic.id),
                                 available: (isBought || freeTopics.includes(topic.id)),
                             }

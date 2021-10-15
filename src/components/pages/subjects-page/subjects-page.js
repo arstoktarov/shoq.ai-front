@@ -10,10 +10,11 @@ import {connect} from "react-redux";
 import {loadSubjects} from "actions/subject-list-actions";
 import SubjectItem from "components/subject/subject-item";
 import {useHistory} from "react-router-dom";
+import SelectivesSection from "components/pages/trial-page/selectives-section";
 
 const useStyles = makeStyles(() => ({
     root: {
-        padding: "1rem",
+        padding: "1rem 0",
         display: "grid",
         gridTemplateColumns: "auto auto",
         gridRowGap: "1em",
@@ -37,7 +38,7 @@ const SubjectsPage = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const { list = [], loadSubjects, loading } = props;
+    const { list = [], loadSubjects, loading, selectives } = props;
 
     const [modalOpen, setModalOpen] = useState(true);
 
@@ -47,7 +48,7 @@ const SubjectsPage = (props) => {
 
     useEffect(() => {
         loadSubjects();
-    }, []);
+    }, [selectives]);
 
     return (
         <MainLayout>
@@ -55,6 +56,9 @@ const SubjectsPage = (props) => {
                 <CircularProgress />
             </Backdrop>
             <Box px={3} py={2} display="flex" flexDirection="row" flexWrap="wrap">
+                <Box>
+                    <SelectivesSection />
+                </Box>
                 <div className={classes.root}>
                     {
                         list.map((item, idx) => {
@@ -62,6 +66,8 @@ const SubjectsPage = (props) => {
                             return (<SubjectItem
                                 key={idx}
                                 title={name}
+                                isBought={isBought}
+                                infoPayment={infoPayment}
                                 supTitle={language}
                                 title2={`${currentProgress}/${totalTopics}`}
                                 subtitle={"Средняя оценка"}
@@ -118,10 +124,11 @@ const SubjectsPage = (props) => {
 
 }
 
-const mapStateToProps = ({ subjectList }) => {
+const mapStateToProps = ({ subjectList, selectivesReducer }) => {
     return {
         list: subjectList.list,
         loading: subjectList.loading,
+        selectives: selectivesReducer,
     };
 };
 

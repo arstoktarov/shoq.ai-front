@@ -16,6 +16,7 @@ import userReducer from "./user-reducer";
 import OOFPageReducer from "./oof-page-reducer";
 import notificationsPageReducer from "./notifications-page-reducer";
 import subscriptionsPageReducer from "./subscriptions-page-reducer";
+import selectivesReducer from "./selectives-reducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     task: taskReducer,
     profile: profileReducer,
     friendsPage: friendsPageReducer,
+    selectivesReducer:  selectivesReducer,
     trialInitialPage: trialInitialPageReducer,
     trialTest: trialTestReducer,
     OOFPage: OOFPageReducer,

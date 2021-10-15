@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, FormControl, MenuItem, Select} from "@material-ui/core";
+import {Backdrop, Box, CircularProgress, FormControl, MenuItem, Select} from "@material-ui/core";
 import Typography from "components/mui-customized/Typography";
 import useStyles from "./styles";
 import {getTrialPage, loadSelectives, setSelectives} from "actions/trial-initial-page-actions";
@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 const SelectivesSection = (props) => {
     const classes = useStyles();
 
-    const { selectives, selectivesList, loadSelectives, setSelectives } = props;
+    const { selectives, selectivesList, loadSelectives, setSelectives, loading } = props;
 
     const [currentSelectiveId, setCurrentSelectiveId] = useState(null);
     const [currentSelectivePairId, setCurrentSelectivePairId] = useState(null);
@@ -18,6 +18,9 @@ const SelectivesSection = (props) => {
             const { globalId, pair: { globalId: pairGlobalId } } = selectives;
             setCurrentSelectiveId(globalId);
             setCurrentSelectivePairId(pairGlobalId);
+        }
+        else {
+            loadSelectives();
         }
     }, [selectives]);
 
@@ -51,9 +54,12 @@ const SelectivesSection = (props) => {
 
     return (
         <Box display="flex" flexDirection="row" alignItems="center">
+            <Backdrop style={{zIndex: 99999}} open={loading}>
+                <CircularProgress />
+            </Backdrop>
             <Typography>Профильные предметы:</Typography>
             <Box ml="auto" display="flex" flexDirection="row">
-                <Box>
+                <Box ml={3}>
                     <FormControl className={classes.formControl}>
                         <Select
                             labelId="demo-simple-select-outlined-label"
@@ -96,10 +102,10 @@ const SelectivesSection = (props) => {
 }
 
 
-const mapStateToProps = ({ user, trialInitialPage }) => ({
-    selectivesList: trialInitialPage.selectivesList,
-    selectives: trialInitialPage.selectives,
-    loading: trialInitialPage.loading,
+const mapStateToProps = ({ user, selectivesReducer }) => ({
+    selectivesList: selectivesReducer.selectivesList,
+    selectives: selectivesReducer.selectives,
+    loading: selectivesReducer.loading,
     user: user.user,
 });
 

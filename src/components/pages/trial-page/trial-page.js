@@ -152,10 +152,10 @@ const TrialPage = (props) => {
 
 }
 
-const mapStateToProps = ({ user, trialInitialPage, trialTest }) => ({
+const mapStateToProps = ({ user, trialInitialPage, selectivesReducer, trialTest }) => ({
     trialTest: trialTest.trialTest,
-    selectivesList: trialInitialPage.selectivesList,
-    selectives: trialInitialPage.selectives,
+    selectivesList: selectivesReducer.selectivesList,
+    selectives: selectivesReducer.selectives,
     trialPage: trialInitialPage.trialPage,
     loading: trialInitialPage.loading,
     user: user.user,
