@@ -9,6 +9,7 @@ export const loadSubscriptions = () => async (dispatch) => {
         dispatch(subscriptionsSuccess({ priceList, selectives }));
     }
     catch (e) {
+        console.log(e);
         dispatch(subscriptionsFailure(e));
     }
 }

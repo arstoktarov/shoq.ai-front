@@ -42,6 +42,7 @@ const LoginPage = (props) => {
 
     const handleNumberChange = (value) => {
         let number = value;
+        number = parseInt(number).toString();
         if (number.length < 2 && number !== "+") {
             number = "+7" + number;
         }

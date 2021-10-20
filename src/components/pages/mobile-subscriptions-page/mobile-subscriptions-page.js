@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Backdrop, Badge as MuiBadge, Box, CircularProgress, Tab as MuiTab} from "@material-ui/core";
 import Header from "components/header/header";
-import {withStyles} from "@material-ui/core/styles";
+import {makeStyles, withStyles} from "@material-ui/core/styles";
 import SubscriptionItem from "components/pages/subscriptions-page/subscription-item";
 import Typography from "components/mui-customized/Typography";
 import {loadSubscriptions} from "actions/subscriptions-page-actions";
@@ -44,10 +44,32 @@ const tabs = [
     1, 3, 6, 9, 12
 ];
 
-const SubscriptionsPage = (props) => {
+const useStyles = makeStyles((theme) => ({
+    tabs: {
+        overflowX: "auto",
+        overflowY: "hidden",
+    },
+    subscriptionTab: {
+        fontFamily: "Roboto, Raleway, sans-serif",
+        fontWeight: "bolder",
+        textTransform: "none",
+        color: theme.palette.primary.main,
+        backgroundColor: "#F7F9FA",
+        opacity: 1,
+        borderRadius: "50px",
+        minWidth: "100px",
+        minHeight: "45px",
+        boxShadow: "rgb(0 0 0 / 15%) 0px 0px 10px 1px",
+    },
+}));
+
+const MobileSubscriptionsPage = (props) => {
+    const classes = useStyles();
     const [currentTab, setCurrentTab] = useState(3);
 
     const { loading, subscriptions = [], loadSubscriptions, selectives, selectiveId, selectivePairId } = props;
+
+    console.log(subscriptions);
 
     const [buyOption, setBuyOption] = useState(null);
 
@@ -105,42 +127,54 @@ const SubscriptionsPage = (props) => {
 
     return (
         <Box>
+            <Header />
             <Backdrop style={{zIndex: 99999}} open={loading}>
                 <CircularProgress />
             </Backdrop>
-            <Box p={5} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <Box width="800px" flexDirection="column" display="flex" justifyContent="center">
-                    <Box height="150px">
+            <Box>
+                <Box flexDirection="column" display="flex" justifyContent="center">
+                    <Box p={3} height="150px">
                         <Typography fontFamily="Roboto" variant="h5">Заплатите 50 тыщь долларов миллионов</Typography>
                         <Box mt={2}>
                             <Typography fontFamily="Roboto" customVariant="littleTextRoboto">и получите все что пожелаете</Typography>
                         </Box>
                     </Box>
-                    <Box display="flex" flexDirection="row" justifyContent="center" position="sticky" top="70px" zIndex="5">
+                    <Box py={3} className={classes.tabs} display="flex" flexDirection="row">
                         {
-                            tabs.map((item) => (
-                                <Box key={item} mx={2}>
+                            subscriptions.map(({ title }) => (
+                                <Box key={title} mx={2}>
                                     <Badge badgeContent="-15%" anchorOrigin={{
                                         vertical: 'bottom',
                                         horizontal: 'right',
                                     }}>
-                                        <Tab onClick={onTabClick(item)} label={`${item} месяца`} selected={currentTab === item} />
+                                        <Tab classes={{
+                                            root: classes.subscriptionTab,
+                                        }} variant="scrollable" label={`${title}`} />
                                     </Badge>
                                 </Box>
                             ))
                         }
                     </Box>
+                    <Box py={3} className={classes.tabs}
+                         display="flex"
+                         flexDirection="row"
+                         position="sticky"
+                         top="50px"
+                         zIndex="5">
                     {
-                        buyOption ?
-                            <BuySection
-                                subscriptions={subscriptions}
-                                buyOption={buyOption}
-                                currentTab={currentTab}
-                            />
-                        :
-                            priceListSection
+                        tabs.map((item) => (
+                            <Box key={item} mx={2}>
+                                <Badge badgeContent="-15%" anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                }}>
+                                    <Tab variant="scrollable" onClick={onTabClick(item)} label={`${item} месяца`} selected={currentTab === item} />
+                                </Badge>
+                            </Box>
+                        ))
                     }
-                    <Box mt={10} height="150px">
+                </Box>
+                    <Box p={3} mt={10} height="5000px">
                         <Typography fontFamily="Roboto" variant="h5">Возникли вопросы?</Typography>
                         <Box mt={2}>
                             <Typography fontFamily="Roboto" customVariant="littleTextRoboto">Закажите звонок для бесплатной консультации</Typography>
@@ -167,4 +201,4 @@ const mapDispatchToProps = (dispatch) => ({
     "loadSubscriptions": () => dispatch(loadSubscriptions()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubscriptionsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileSubscriptionsPage);

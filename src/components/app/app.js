@@ -33,6 +33,7 @@ import {Backdrop, CircularProgress} from "@material-ui/core";
 import TrialTestResult from "components/pages/trial-test-page/trial-test-result";
 import NotificationsPage from "components/pages/notifications-page";
 import SubscriptionsPage from "components/pages/subscriptions-page";
+import MobileSubscriptionsPage from "components/pages/mobile-subscriptions-page";
 
 class App extends Component {
 
@@ -56,8 +57,8 @@ class App extends Component {
                             <Route exact path="/recoveryCode" component={CheckRecoveryCode} />
                             <Route exact path="/resetPassword" component={ResetPasswordPage} />
                             <Route exact path="/code" component={CheckCodePage} />
+                            <Route exact path="/subscriptions" component={MobileSubscriptionsPage} />
 
-                            <PrivateRoute exact path="/subscriptions" component={SubscriptionsPage} />
                             <PrivateRoute exact path="/" render={() => (<Redirect to="/subjects"/>)} />
                             <PrivateRoute exact path="/subjects" component={SubjectsPage} />
                             <PrivateRoute exact path="/subjects/:subjectId" component={SubjectPage} />

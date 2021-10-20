@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import {Avatar, Box, Menu, MenuItem, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {ShoqaiBrandIcon} from "components/icons";
+import apiService from "services/api-service";
 
 const useStyles = makeStyles({
     headerBox: {
@@ -48,6 +49,7 @@ const Header = (props) => {
     const history = useHistory();
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const [user, setUser] = useState(null);
 
     const { logout } = props;
 
@@ -67,14 +69,14 @@ const Header = (props) => {
         handleClose();
     }
 
+    useEffect(async () => {
+        const { data: user } = await apiService.me();
+        setUser(user);
+    }, []);
+
     const onBrandClick = () => {
         history.push('/');
     }
-    let user = null;
-    try {
-        user = JSON.parse(localStorage.getItem('user'));
-    }
-    catch (e) {console.error(e)}
 
     return (
         <Box className={classes.headerBox}>
@@ -87,27 +89,37 @@ const Header = (props) => {
                     </Typography>
                 </Box>
                 <Box flexGrow="11" flexShrink="1" />
-                <Box flexGrow="1" flexShrink="0" className={classes.headerSection} onClick={handleClick}>
-                    <Box display="flex" flexDirection="row" alignItems="center" ml="auto">
-                        <Typography className={classes.username}>
-                            {user?.username ?? ""}
-                        </Typography>
-                        <Avatar className={classes.avatar}
-                                alt="Remy Sharp"
-                                src={user?.avatar ?? ""}
-                        />
-                    </Box>
-                </Box>
-                <Box flexGrow="2" />
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
-                </Menu>
+                {
+                    user ?
+                        <React.Fragment>
+                            <Box flexGrow="1" flexShrink="0" className={classes.headerSection} onClick={handleClick}>
+                                <Box display="flex" flexDirection="row" alignItems="center" ml="auto">
+                                    <Typography className={classes.username}>
+                                        {user?.username ?? ""}
+                                    </Typography>
+                                    <Avatar className={classes.avatar}
+                                            alt="Remy Sharp"
+                                            src={user?.avatar ?? ""}
+                                    />
+                                </Box>
+                            </Box>
+                            <Box flexGrow="2" />
+                            <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            >
+                            <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
+                            </Menu>
+                        </React.Fragment>
+                    :
+                        <React.Fragment>
+                            <Box flexGrow="1" flexShrink="0" />
+                            <Box flexGrow="2" />
+                        </React.Fragment>
+                }
             </Box>
         </Box>
     );
