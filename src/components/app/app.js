@@ -57,7 +57,7 @@ class App extends Component {
                             <Route exact path="/recoveryCode" component={CheckRecoveryCode} />
                             <Route exact path="/resetPassword" component={ResetPasswordPage} />
                             <Route exact path="/code" component={CheckCodePage} />
-                            <Route exact path="/subscriptions" component={WebSubscriptionsPage} />
+                            <Route exact path="/subscriptions" component={SubscriptionsPage} />
 
                             <PrivateRoute exact path="/" render={() => (<Redirect to="/subjects"/>)} />
                             <PrivateRoute exact path="/subjects" component={SubjectsPage} />
