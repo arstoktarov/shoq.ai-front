@@ -161,10 +161,10 @@ const mapStateToProps = ({ subscriptionsPage: { subscriptions, selectives, selec
     selectives,
     selectiveId,
     selectivePairId
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     "loadSubscriptions": () => dispatch(loadSubscriptions()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WebSubscriptionsPage);

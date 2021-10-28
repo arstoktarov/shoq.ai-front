@@ -22,7 +22,7 @@ const TrialAnswerItem = (props) => {
     const {idx, title = '', variant, onClick, answered, answerImage} = props;
 
     return (
-        <ButtonBase style={{position: "relative"}} onClick={onClick} {...props} disableTouchRipple classes={{
+        <ButtonBase style={{position: "relative"}} onClick={onClick} disableTouchRipple classes={{
             root: classes[variant ?? "root"],
         }}>
             <CircleBoundary className={classes.number}>

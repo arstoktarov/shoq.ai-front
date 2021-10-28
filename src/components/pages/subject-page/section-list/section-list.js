@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import SectionItem from "../section-item";
@@ -36,10 +36,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SectionList(props) {
-    const { items = [1] } = props;
+    const { activeSection, items = [1] } = props;
     const classes = useStyles();
 
     const [expandedSection, setExpandedSection] = useState(`panel_${0}`);
+
+    useEffect(() => {
+        console.log("activeSection", activeSection);
+        setExpandedSection(`panel_${activeSection?.id}`);
+    }, [items]);
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpandedSection(newExpanded ? panel : false);
@@ -53,8 +58,8 @@ function SectionList(props) {
                         <SectionItem
                             topics={item.topics}
                             title={item.name}
-                            key={index}
-                            index={index}
+                            key={item.id}
+                            index={item.id}
                             expanded={expandedSection}
                             handleChange={handleChange} />
                     );

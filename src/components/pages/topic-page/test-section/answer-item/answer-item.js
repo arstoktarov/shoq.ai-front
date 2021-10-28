@@ -18,7 +18,7 @@ const AnswerItem = (props) => {
                     <Typography style={{color: "#5B7083", lineHeight: "1"}}>{String.fromCharCode(97 + idx)}</Typography>
                 </CircleBoundary>
                 {
-                    titleComponent ?? <Typography className={classes.text}>{title}</Typography>
+                    titleComponent ?? <Typography className={classes.text}><Box dangerouslySetInnerHTML={{__html: title}}/></Typography>
                 }
         </ButtonBase>
     );

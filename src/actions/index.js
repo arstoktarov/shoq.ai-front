@@ -36,7 +36,7 @@ export const requestAccessToken = () => {
 }
 
 export const checkAuth = () => {
-    return (dispatch) => {
+    return async (dispatch, getState) => {
         dispatch(authRequest());
         const access_token = localStorage.getItem('access_token');
         if (!access_token) {
@@ -44,7 +44,17 @@ export const checkAuth = () => {
         }
         else {
             apiService.setAccessToken(access_token);
-            dispatch(authSuccess());
+            try {
+                const res = await apiService.me();
+                console.log("me result", res);
+                dispatch(authSuccess());
+            }
+            catch (e) {
+                console.log("me result", e);
+                dispatch(authFailure({
+                    errorMessage: "Вы вошли с другого устройства"
+                }));
+            }
         }
     }
 }

@@ -12,14 +12,20 @@ const NotificationsPage = (props) => {
 
     const { loadNotifications, notifications = [], totalPages } = props;
 
-    console.log(notifications);
-
     useEffect(() => {
         loadNotifications(page);
     }, [page]);
 
+    useEffect(() => {
+        scrollToStart();
+    }, [notifications]);
+
     const onPageChange = (e, v) => {
         setPage(v);
+    }
+
+    const scrollToStart = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     const onNotificationClick = (item) => {

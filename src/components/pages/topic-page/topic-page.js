@@ -20,6 +20,10 @@ const useStyles = makeStyles(() => ({
         left: 0,
         right: 0,
     },
+    blurred: {
+        "filter": "blur(4px)",
+        "-webkit-filter": "blur(4px)",
+    },
 }));
 
 
@@ -49,20 +53,16 @@ const TopicPage = (props) => {
                 <Box mt={2}>
                     <VideoSection url={topic?.video?.link ?? ""}/>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box hidden={!topic?.history?.video}>
-                        <Fade timeout={1000} in={topic?.history?.video}>
-                            <Box>
-                                <TestSection />
-                            </Box>
-                        </Fade>
+                    <Box className={!topic?.history?.video ? classes.blurred : ""}>
+                        <Box>
+                            <TestSection />
+                        </Box>
                     </Box>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box hidden={!topic?.history?.test}>
-                        <Fade in={topic?.history?.test}>
-                            <Box>
-                                <AssignmentSection />
-                            </Box>
-                        </Fade>
+                    <Box className={!topic?.history?.test ? classes.blurred : ""}>
+                        <Box>
+                            <AssignmentSection />
+                        </Box>
                     </Box>
                 </Box>
             </Box>
