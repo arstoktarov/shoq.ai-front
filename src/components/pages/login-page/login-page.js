@@ -18,9 +18,12 @@ const LoginPage = (props) => {
     const [password, setPassword] = useState('');
     const [backdropOpen, setBackdropOpen] = useState(false);
 
+    console.log("isAuth", isAuthenticated);
+    console.log("errorMessage", errorMessage);
+
     useEffect(() => {
         if (isAuthenticated) {
-            history.goBack();
+            history.push('/subjects');
         }
     });
 

@@ -3,18 +3,13 @@ import {Backdrop, Box, CircularProgress, IconButton, Modal} from "@material-ui/c
 import MainLayout from "components/layouts/main-layout";
 import TrialMenu from "./trial-menu";
 import Typography from "components/mui-customized/Typography";
-import Button from "components/mui-customized/Button";
 import {connect} from "react-redux";
 import {
     getTrialById,
-    loadTrialTest,
     trialAnswerSelected, trialEnded,
     trialFinish,
     trialQuestionMarked,
-    trialRunning
 } from "actions/trial-test-actions";
-import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
-import StopRoundedIcon from '@material-ui/icons/StopRounded';
 import TrialQuestionItem from "./trial-question-item";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -23,6 +18,7 @@ import useStyles from "./styles";
 import {useHistory} from "react-router-dom";
 import withRedirect from "../../../hoc/withRedirect";
 import TrialResultView from "components/pages/trial-page/trial-result-view";
+import TrialResultMenu from "components/pages/trial-test-page/trial-result-menu";
 
 
 const TrialTestResult = (props) => {
@@ -107,7 +103,7 @@ const TrialTestResult = (props) => {
     }
 
     return (
-        <MainLayout menuComponent={<TrialMenu trialFinished={!showResults} onShowResultsClick={handleShowResultsClick} trialTest={trialTest} headers={headers} onCellClick={handleMenuCellClick}/>}>
+        <MainLayout menuComponent={<TrialResultMenu trialFinished={!showResults} onShowResultsClick={handleShowResultsClick} trialTest={trialTest} headers={headers} onCellClick={handleMenuCellClick}/>}>
             <Backdrop style={{zIndex: 99999}} open={loading} ><CircularProgress /></Backdrop>
             <Box p={2}>
                 <Box display="flex" flexDirection="row" alignItems="center">

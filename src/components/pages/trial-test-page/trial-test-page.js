@@ -30,6 +30,7 @@ const TrialTestPage = (props) => {
 
     const { trialTest, loading, error, loadTrialTest, trialFinish, trialRunning, questionMarked, answerSelected } = props;
     const { headers = [], questions = [], elapsedSeconds = 0, texts = [], prevQuestionId, nextQuestionId } = trialTest;
+    const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
         if (!trialTest.id) {
@@ -40,6 +41,13 @@ const TrialTestPage = (props) => {
     useEffect(() => {
         if (trialTest.id) {
             localStorage.setItem('currentTrialId', trialTest.id);
+        }
+        setSeconds(elapsedSeconds);
+        let interval = setInterval(() => {
+            setSeconds(s => s + 1);
+        }, 1000);
+        return () => {
+            clearInterval(interval);
         }
     }, [trialTest]);
 
@@ -124,15 +132,19 @@ const TrialTestPage = (props) => {
             <Backdrop style={{zIndex: 99999}} open={loading || trialTest.result !== null} ><CircularProgress /></Backdrop>
             <Box p={2}>
                 <Box display="flex" flexDirection="row" alignItems="center">
-                    <Typography customVariant="subtitleRoboto" fontWeight="500">Прошло {new Date(1000 * (elapsedSeconds ?? 0)).toISOString().substr(11, 8)}</Typography>
+                    <Typography customVariant="subtitleRoboto" fontWeight="500">Прошло {new Date(1000 * (seconds ?? 0)).toISOString().substr(11, 8)}</Typography>
                     {
                         !trialTest.result ?
                         <Box display="flex" flexDirection="row" ml="auto" alignItems="center">
                             <Button onClick={handlePauseClick} variant="contained" color="primary"
-                                    startIcon={<PauseRoundedIcon/>}>Сохранить и выйти</Button>
+                                    startIcon={<PauseRoundedIcon/>}>
+                                Сохранить и выйти
+                            </Button>
                             <Box ml={2}>
                                 <Button onClick={handleStopClick} variant="contained" color="primary"
-                                        startIcon={<StopRoundedIcon/>}>Завершить</Button>
+                                        startIcon={<StopRoundedIcon/>}>
+                                    Завершить
+                                </Button>
                             </Box>
                         </Box>
                         : ""

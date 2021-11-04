@@ -20,6 +20,10 @@ const useStyles = makeStyles(() => ({
         left: 0,
         right: 0,
     },
+    blurred: {
+        "filter": "blur(4px)",
+        "-webkit-filter": "blur(4px)",
+    },
 }));
 
 
@@ -49,20 +53,28 @@ const TopicPage = (props) => {
                 <Box mt={2}>
                     <VideoSection url={topic?.video?.link ?? ""}/>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box hidden={!topic?.history?.video}>
-                        <Fade timeout={1000} in={topic?.history?.video}>
-                            <Box>
-                                <TestSection />
-                            </Box>
-                        </Fade>
+                    <Box position="relative" className={!topic?.history?.video ? classes.blurred : ""}>
+                        {
+                            !topic?.history?.video ?
+                            <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"
+                                 bottom="0" />
+                            : ""
+                        }
+                        <Box>
+                            <TestSection />
+                        </Box>
                     </Box>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box hidden={!topic?.history?.test}>
-                        <Fade in={topic?.history?.test}>
-                            <Box>
-                                <AssignmentSection />
-                            </Box>
-                        </Fade>
+                    <Box position="relative" className={!topic?.history?.test ? classes.blurred : ""}>
+                        {
+                            !topic?.history?.test ?
+                            <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"
+                                 bottom="0" />
+                            : ""
+                        }
+                        <Box>
+                            <AssignmentSection />
+                        </Box>
                     </Box>
                 </Box>
             </Box>

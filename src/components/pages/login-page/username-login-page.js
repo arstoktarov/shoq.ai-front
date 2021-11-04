@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import Backdrop from "components/backdrop";
 
-const UsernameLoginPage = () => {
+const UsernameLoginPage = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
@@ -17,8 +17,10 @@ const UsernameLoginPage = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [backdropOpen, setBackdropOpen] = useState(false);
 
+    const { isAuthenticated } = props;
+
     useEffect(() => {
-        if (localStorage.getItem("access_token")) {
+        if (isAuthenticated) {
             history.push('/');
         }
     });
@@ -128,6 +130,7 @@ const UsernameLoginPage = () => {
 
 const mapStateToProps = ({ auth }) => {
     return {
+        isAuthenticated: auth.isAuthenticated,
         loading: auth.loading,
         error: auth.error,
         errorMessage: auth.errorMessage,

@@ -38,7 +38,11 @@ import WebSubscriptionsPage from "components/pages/subscriptions-page/web-subscr
 class App extends Component {
 
     componentDidMount() {
-        this.props.loadUser();
+        //this.props.loadUser();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(`/subscriptions?user_id=${this.props.user?.id}`);
     }
 
     render() {
@@ -86,6 +90,7 @@ class App extends Component {
 
 const mapStateToProps = ({ user }) => ({
     loading: user.loading,
+    user: user.user,
 })
 
 const mapDispatchToProps = (dispatch) => {

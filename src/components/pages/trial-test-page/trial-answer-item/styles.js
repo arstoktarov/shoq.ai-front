@@ -30,7 +30,7 @@ export default makeStyles((theme) => ({
     correct: (props) => ({
         padding: "20px 10px",
         borderRadius: "20px",
-        backgroundColor: "#7fef7f",
+        backgroundColor: "#D7ECD9",
         width: "100%",
         minHeight: "45px",
         marginBottom: "10px",
@@ -43,7 +43,7 @@ export default makeStyles((theme) => ({
     incorrect: (props) => ({
         padding: "20px 10px",
         borderRadius: "20px",
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "#F5D5CB",
         color: "white",
         width: "100%",
         minHeight: "45px",

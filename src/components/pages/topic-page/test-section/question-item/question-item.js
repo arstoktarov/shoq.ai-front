@@ -25,7 +25,7 @@ const QuestionItem = (props) => {
         <Box>
             <Box mb={5}>
                 <Typography style={{textIndent: "50px", overflowWrap: "break-word"}} color="textSecondary">
-                    {title}
+                    <Box dangerouslySetInnerHTML={{__html: title}}/>
                 </Typography>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">

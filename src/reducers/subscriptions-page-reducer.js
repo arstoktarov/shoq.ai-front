@@ -5,6 +5,15 @@ const initialState = {
     selectives: [],
     selectiveId: null,
     selectivePairId: null,
+    supportAvailable: {
+        isAvailable: true,
+        leftSeconds: 0,
+    },
+    supportWrite: {
+        success: false,
+        loading: false,
+        error: false,
+    },
     loading: false,
 };
 
@@ -40,7 +49,41 @@ export default function(state = initialState, action) {
                 ...state,
                 selectivePairId: action.payload,
             };
+        case actionTypes.SUPPORT_AVAILABLE_REFRESH:
+        {
+            const {isAvailable = true, leftSeconds = 0} = action.payload;
+            return {
+                ...state,
+                supportAvailable: {
+                    isAvailable,
+                    leftSeconds
+                },
+            };
+        }
+        case actionTypes.SUPPORT_WRITE_REQUEST:
+        {
+            return {
+                ...state,
+                supportWrite: {
+                    success: false,
+                    loading: true,
+                    error: false,
+                },
+            }
+        }
+        case actionTypes.SUPPORT_WRITE_SUCCESS:
+        {
+            return {
+                ...state,
+                supportWrite: {
+                    success: true,
+                    loading: false,
+                    error: false,
+                }
+            }
+        }
         default:
             return state;
+
     }
 }

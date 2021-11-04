@@ -5,10 +5,10 @@ import Header from "components/header";
 import Menu from "components/menu";
 import {ListItemLink} from "components/menu/List";
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import {ExamIcon, GiftIcon, ProfileIcon, StatisticsIcon, StudyIcon} from "components/icons";
+import {ExamIcon, ProfileIcon} from "components/icons";
 import {CoursesIcon} from "components/icons/icons";
-import PaymentIcon from '@material-ui/icons/Payment';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
+import {connect} from "react-redux";
 
 const useStyles = makeStyles({
     mainLayout: {
@@ -29,7 +29,9 @@ const useStyles = makeStyles({
 const MainLayout = (props) => {
     const classes = useStyles();
 
-    const { menuComponent } = props;
+    const { menuComponent, user } = props;
+
+    console.log(user);
 
     return (
         <Box style={{minHeight: "1000px"}}>
@@ -46,7 +48,13 @@ const MainLayout = (props) => {
                         {/*<ListItemLink selected={location.pathname.startsWith('/universities')} primary="Вузы" to={'/'} icon={<StudyIcon />} />*/}
                         {/*<ListItemLink selected={location.pathname.startsWith('/stats')} primary="Статистика" to={'/'} icon={<StatisticsIcon />} />*/}
                         <ListItemLink selected={location.pathname.startsWith('/notifications')} primary="Уведомления" to={'/notifications'} icon={<NotificationsNoneIcon />} />
-                        <ListItemLink selected={location.pathname.startsWith('/subscriptions')} primary="Подписки" to={'/subscriptions'} icon={<AccountBalanceWalletOutlinedIcon />} />
+                        {
+                            user?.id ?
+                            <ListItemLink selected={location.pathname.startsWith("/subscriptions")}
+                                          primary="Подписки" to={`/subscriptions?user_id=${user?.id}`}
+                                          icon={<AccountBalanceWalletOutlinedIcon/>}/>
+                            : ""
+                        }
                     </Menu>
                 }
                 <Box gridArea="main">
@@ -58,4 +66,8 @@ const MainLayout = (props) => {
 
 }
 
-export default MainLayout;
+const mapStateToProps = ({ user }) => ({
+    user: user.user,
+})
+
+export default connect(mapStateToProps, null)(MainLayout);

@@ -343,8 +343,10 @@ class ApiService {
         return data;
     }
 
-    buyPackage = async ({ packageType, optionType, priceId, subjectGlobalIds, language }) => {
-        const { data } = await this.session.post('/authed/payment/buy', { packageType, optionType, priceId, subjectGlobalIds, language });
+    buyPackage = async ({ userId, packageType, optionType, priceId, subjectGlobalIds, language }) => {
+        const { data } = await this.session.post('/unauthed/payment/buy', {
+            userId, packageType, optionType, priceId, subjectGlobalIds, language
+        });
         return data;
     }
 
@@ -366,6 +368,20 @@ class ApiService {
         const { data } = await this.session.post('/authed/univer/major_list', {
             page,
             search
+        });
+        return data;
+    }
+
+    supportAvailableRefresh = async (userId) => {
+        const { data } = await this.session.post('/unauthed/payment/supportAvailable', {
+            id: userId
+        });
+        return data;
+    }
+
+    supportWrite = async ({ studentId, name, content, number }) => {
+        const { data } = await this.session.post('/unauthed/payment/supportWrite', {
+            studentId, name, content, number
         });
         return data;
     }

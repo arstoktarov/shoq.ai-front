@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import apiService from "services/api-service";
 import {
     Accordion as MuiAccordion,
     AccordionDetails as MuiAccordionDetails,
     AccordionSummary as MuiAccordionSummary,
-    Box, Button, Divider, FormControlLabel, Radio
+    Box, Button, Divider, FormControlLabel, Radio, Tab as MuiTab
 } from "@material-ui/core";
 import Typography from "components/mui-customized/Typography";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
@@ -14,6 +14,7 @@ import TextField from "components/mui-customized/TextField/TextField";
 import SelectableSubjects from "components/pages/subscriptions-page/subscription-item/selectable-subjects";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
+import Breadcrumb from "components/mui-customized/breadcrumb";
 
 const Accordion = withStyles({
     root: {
@@ -58,12 +59,31 @@ const AccordionSummary = withStyles({
     expanded: {},
 })(MuiAccordionSummary);
 
+const Tab = withStyles((theme) => ({
+    root: {
+        fontFamily: "Roboto, Raleway, sans-serif",
+        fontWeight: "bolder",
+        textTransform: "none",
+        color: theme.palette.primary.main,
+        backgroundColor: "#F7F9FA",
+        opacity: 1,
+        borderRadius: "50px",
+        minWidth: "100px",
+        minHeight: "45px",
+        boxShadow: "rgb(0 0 0 / 15%) 0px 0px 10px 1px",
+    },
+    selected: {
+        color: "white",
+        backgroundColor: theme.palette.primary.main,
+    },
+}))(MuiTab);
 
-const BuySection = (props) => {
+
+const MobileBuySection = (props) => {
     const classes = useStyles(props);
     const history = useHistory();
 
-    const { userId, selectiveId, selectivePairId, subscriptions, buyOption = {}, currentTab } = props;
+    const { userId, selectiveId, selectivePairId, subscriptions, buyOption = {}, currentTab, currentSubscription } = props;
     const [paymentType, setPaymentType] = React.useState('card');
     const { packageType, optionType } = buyOption;
     const pkg = subscriptions.find((i) => i.packageType === packageType);
@@ -109,8 +129,8 @@ const BuySection = (props) => {
         switch (paymentType) {
             case "kaspi":
                 return (
-                    <Box mt={3} display="flex" flexDirection="row" alignItems="center">
-                        <Box mr={2}>
+                    <Box mt={3} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+                        <Box width="100%">
                             <TextField
                                 InputProps={{
                                     classes: {
@@ -126,7 +146,7 @@ const BuySection = (props) => {
                                 fullWidth
                             />
                         </Box>
-                        <Box mr={2}>
+                        <Box mt={2} width="100%">
                             <TextField
                                 InputProps={{
                                     classes: {
@@ -142,7 +162,7 @@ const BuySection = (props) => {
                                 fullWidth
                             />
                         </Box>
-                        <Box>
+                        <Box mt={2} width="100%" display="flex" flexDirection="row" justifyContent="center">
                             <Button className={classes.buyButton} color="primary" variant="contained">
                                 Оставить заявку
                             </Button>
@@ -163,46 +183,15 @@ const BuySection = (props) => {
     }
 
     return (
-        <Box mt={8}>
-            <Box display="flex" flexDirection="row">
-                <Box className={classes.subscription}>
-                    <Box px={3} py={2}>
-                        <Box>
-                            <Typography fontFamily="Roboto; Raleway" fontSize="24px">{pkg.title}</Typography>
-                        </Box>
-                        <Box mt={2}>
-                            {
-                                features.map((item, idx) => (
-                                    <Box key={idx} mt={1} display="flex" flexDirection="row" alignContent="center" alignItems="center">
-                                        <Box mr={1}>
-                                            <CheckCircleRoundedIcon color="primary" style={{width: 12, height: 12}} fontSize="small"/>
-                                        </Box>
-                                        <Typography customVariant="littleTextRoboto">{item.toString()}</Typography>
-                                    </Box>
-                                ))
-                            }
-                        </Box>
-                    </Box>
-                    <Divider />
-                    <Box px={3} py={2}>
-                        <Box>
-                            {
-                                subjects.map((item, idx) => (
-                                    <Box key={idx} mt={1} display="flex" flexDirection="row" alignContent="center" alignItems="center">
-                                        <Box mr={1}>
-                                            <CheckCircleRoundedIcon color="primary" style={{width: 12, height: 12}} fontSize="small"/>
-                                        </Box>
-                                        <Typography customVariant="littleTextRoboto">{item.toString()}</Typography>
-                                    </Box>
-                                ))
-                            }
-                            {
-                                <SelectableSubjects />
-                            }
-                        </Box>
+        <Box>
+            <Box display="flex" flexDirection="column">
+                <Box display="flex" flexDirection="column" px={3} py={2} alignItems="center" justifyContent="center">
+                    <Tab label={currentSubscription.title} selected/>
+                    <Box mt={2}>
+                        <Tab label={`${currentTab} месяца`} selected/>
                     </Box>
                 </Box>
-                <Box width="100%" px={5} display="flex" flexDirection="column">
+                <Box px={5} display="flex" flexDirection="column">
                     <Accordion square expanded={paymentType === 'card'} onChange={handleAccordionChange('card')}>
                         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                             <FormControlLabel
@@ -263,4 +252,4 @@ const mapStateToProps = ({ subscriptionsPage: { selectiveId, selectivePairId } }
     selectivePairId
 })
 
-export default connect(mapStateToProps, null)(BuySection);
+export default connect(mapStateToProps, null)(MobileBuySection);

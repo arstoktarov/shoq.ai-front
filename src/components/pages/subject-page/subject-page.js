@@ -19,6 +19,43 @@ const SubjectPage = (props) => {
         loadSubject(subjectId);
     }, []);
 
+    const getActiveSection = (sections) => {
+        if (sections) {
+            const activeSection = sections.find((section) => {
+                return section.topics.find((topic) => {
+                    return topic.active;
+                });
+            });
+            console.log(activeSection);
+            return activeSection;
+        }
+        else {
+            return null;
+        }
+    }
+
+    const getActiveTopic = (sections) => {
+        return getActiveSection(sections).topics.find((topic) => {
+            return topic.active;
+        })
+    }
+
+    const openActiveTopic = () => {
+        if (subject) {
+            const { sections } = subject;
+            const activeTopic = getActiveTopic(sections);
+            if (activeTopic) {
+                console.log(activeTopic);
+                if (activeTopic.available && activeTopic.active && !activeTopic.completed) {
+                    history.push(`/subjects/${subjectId}/topics/${activeTopic.id}`);
+                }
+            }
+        }
+    }
+
+    const handleContinueCourseButtonClick = () => {
+        openActiveTopic();
+    }
 
     const { name, sections } = subject;
 
@@ -30,13 +67,13 @@ const SubjectPage = (props) => {
             <Box p={2} maxWidth="700px">
                 <Box display="flex" flexDirection="row" alignItems="center">
                     <Box width="70%">
-                        <Breadcrumb onClick={() => {history.push('/subjects')}} primaryText={name} secondaryText={"Разделы: 3/4 до 03.12.2021"}/>
+                        <Breadcrumb onClick={() => {history.push('/subjects')}} primaryText={name}/>
                     </Box>
                     <Box ml="auto" py={1}>
-                        <Button variant="contained" color="primary" startIcon={<PlayArrowRounded />}>Продолжить курс</Button>
+                        <Button onClick={handleContinueCourseButtonClick} variant="contained" color="primary" startIcon={<PlayArrowRounded />}>Продолжить курс</Button>
                     </Box>
                 </Box>
-                <SectionList items={sections}/>
+                <SectionList activeSection={getActiveSection(sections)} items={sections}/>
             </Box>
         </MainLayout>
     );
@@ -53,7 +90,7 @@ const mapStateToProps = ({ subject }) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadSubject: (subjectId) => dispatch(loadSubject(subjectId)),
-    };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectPage);

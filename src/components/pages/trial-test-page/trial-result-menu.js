@@ -11,6 +11,7 @@ import { colors } from "constantValues";
 import {loadTrialTest, trialRunning} from "actions/trial-test-actions";
 import {connect} from "react-redux";
 import Breadcrumb from "components/mui-customized/breadcrumb";
+import {useHistory} from "react-router-dom";
 
 const Accordion = withStyles((theme) => ({
     root: {
@@ -100,8 +101,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const TrialMenu = (props) => {
+const TrialResultMenu = (props) => {
     const classes = useStyles();
+    const history = useHistory();
     const theme = useTheme();
 
     const { trialFinished, headers = [], onCellClick, onShowResultsClick } = props;
@@ -120,15 +122,17 @@ const TrialMenu = (props) => {
         <Box p={3} minHeight="1000px" minWidth="200px" borderRight="1px solid #CCD4E1">
             <Box position="sticky" top="80px">
                 <Box>
-                    {
-                        trialFinished
-                            ?
-                            <React.Fragment>
-                                <Breadcrumb onClick={() => history.goBack()}/>
-                                <Button onClick={onShowResultsClick} style={{textTransform: "none"}} variant="contained" color="primary" fullWidth>Результаты</Button>
-                            </React.Fragment>
-                            : ""
-                    }
+                    <Breadcrumb onClick={() => history.goBack()} primaryText="Назад"/>
+                    <Box mt={2}>
+                        {
+                            trialFinished
+                                ?
+                                <React.Fragment>
+                                    <Button onClick={onShowResultsClick} style={{textTransform: "none"}} variant="contained" color="primary" fullWidth>Результаты</Button>
+                                </React.Fragment>
+                                : ""
+                        }
+                    </Box>
                 </Box>
                 <Box mt={2}>
                     {
@@ -189,4 +193,4 @@ const TrialMenu = (props) => {
     );
 }
 
-export default TrialMenu;
+export default TrialResultMenu;

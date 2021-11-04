@@ -26,11 +26,13 @@ export default function(state = initialState, action) {
                 loading: false,
             };
         case actionTypes.AUTH_FAILURE:
+            console.log(action.payload);
             return {
                 ...state,
                 isAuthenticated: false,
                 loading: false,
                 error: true,
+                errorMessage: action.payload?.errorMessage ?? "",
             };
         case actionTypes.LOGIN_SUCCESS:
             return {
