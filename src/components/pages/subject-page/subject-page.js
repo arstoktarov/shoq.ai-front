@@ -45,7 +45,10 @@ const SubjectPage = (props) => {
             const { sections } = subject;
             const activeTopic = getActiveTopic(sections);
             if (activeTopic) {
-                history.push(`/subjects/${subjectId}/topics/${activeTopic.id}`);
+                console.log(activeTopic);
+                if (activeTopic.available && activeTopic.active && !activeTopic.completed) {
+                    history.push(`/subjects/${subjectId}/topics/${activeTopic.id}`);
+                }
             }
         }
     }
@@ -64,7 +67,7 @@ const SubjectPage = (props) => {
             <Box p={2} maxWidth="700px">
                 <Box display="flex" flexDirection="row" alignItems="center">
                     <Box width="70%">
-                        <Breadcrumb onClick={() => {history.push('/subjects')}} primaryText={name} secondaryText={"Разделы: 3/4 до 03.12.2021"}/>
+                        <Breadcrumb onClick={() => {history.push('/subjects')}} primaryText={name}/>
                     </Box>
                     <Box ml="auto" py={1}>
                         <Button onClick={handleContinueCourseButtonClick} variant="contained" color="primary" startIcon={<PlayArrowRounded />}>Продолжить курс</Button>
