@@ -28,6 +28,29 @@ export const setSelectives = () => async (dispatch) => {
 
 }
 
+export const supportAvailableRefreshAction = (userId) => async (dispatch) => {
+    try {
+        const { data } = await apiService.supportAvailableRefresh(userId);
+        dispatch(supportAvailableRefresh(data));
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
+
+export const supportWrite = ({ studentId, name, content, number }) => async (dispatch) => {
+    dispatch(supportWriteRequest());
+    try {
+        const { data } = await apiService.supportWrite({ studentId, name, content, number });
+        await supportAvailableRefreshAction(studentId)(dispatch);
+        dispatch(supportWriteSuccess(data));
+    }
+    catch (e) {
+        console.error("supportWrite", e);
+        dispatch(supportWriteFailure());
+    }
+}
+
 export const subscriptionsRequest = () => ({
     type: actionTypes.SUBSCRIPTIONS_REQUEST,
 });
@@ -51,3 +74,21 @@ export const selectivePairChanged = (payload) => ({
     type: actionTypes.SELECTIVE_PAIR_CHANGED,
     payload,
 });
+
+export const supportAvailableRefresh = (payload) => ({
+    type: actionTypes.SUPPORT_AVAILABLE_REFRESH,
+    payload,
+});
+
+export const supportWriteRequest = () => ({
+    type: actionTypes.SUPPORT_WRITE_REQUEST,
+});
+
+export const supportWriteSuccess = () => ({
+    type: actionTypes.SUPPORT_WRITE_SUCCESS,
+});
+
+export const supportWriteFailure = () => ({
+    type: actionTypes.SUPPORT_WRITE_FAILURE
+});
+

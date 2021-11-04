@@ -6,9 +6,9 @@ import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import PropTypes from "prop-types";
 import useStyles from "./styles";
 import Button from "components/mui-customized/Button";
-import {colors} from "constantValues";
 import {connect} from "react-redux";
 import SelectableSubjects from "components/pages/subscriptions-page/subscription-item/selectable-subjects";
+import {useHistory} from "react-router-dom";
 
 const SubscriptionItem = (props) => {
     const classes = useStyles(props);

@@ -53,13 +53,25 @@ const TopicPage = (props) => {
                 <Box mt={2}>
                     <VideoSection url={topic?.video?.link ?? ""}/>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box className={!topic?.history?.video ? classes.blurred : ""}>
+                    <Box position="relative" className={!topic?.history?.video ? classes.blurred : ""}>
+                        {
+                            !topic?.history?.video ?
+                            <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"
+                                 bottom="0" />
+                            : ""
+                        }
                         <Box>
                             <TestSection />
                         </Box>
                     </Box>
                     <Divider className={classes.divider} variant="fullWidth"/>
-                    <Box className={!topic?.history?.test ? classes.blurred : ""}>
+                    <Box position="relative" className={!topic?.history?.test ? classes.blurred : ""}>
+                        {
+                            !topic?.history?.test ?
+                            <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"
+                                 bottom="0" />
+                            : ""
+                        }
                         <Box>
                             <AssignmentSection />
                         </Box>

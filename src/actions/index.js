@@ -1,5 +1,6 @@
 import { actionTypes } from '../constants'
 import apiService from "services/api-service";
+import {userSuccess} from "actions/user-actions";
 
 export const requestAccessToken = () => {
     return (dispatch, getState) => {
@@ -47,6 +48,7 @@ export const checkAuth = () => {
             try {
                 const res = await apiService.me();
                 console.log("me result", res);
+                dispatch(userSuccess(res.data));
                 dispatch(authSuccess());
             }
             catch (e) {
