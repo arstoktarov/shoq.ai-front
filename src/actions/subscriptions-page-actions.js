@@ -51,6 +51,29 @@ export const supportWrite = ({ studentId, name, content, number }) => async (dis
     }
 }
 
+export const kaspiAvailableRefreshAction = (userId) => async (dispatch) => {
+    try {
+        const { data } = await apiService.kaspiAvailableRefresh(userId);
+        dispatch(kaspiAvailableRefresh(data));
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
+
+export const kaspiWrite = ({ studentId, name, content, number }) => async (dispatch) => {
+    dispatch(kaspiWriteRequest());
+    try {
+        const { data } = await apiService.kaspiWrite({ studentId, name, content, number });
+        await kaspiAvailableRefreshAction(studentId)(dispatch);
+        dispatch(kaspiWriteSuccess(data));
+    }
+    catch (e) {
+        console.error("kaspiWrite", e);
+        dispatch(kaspiWriteFailure());
+    }
+}
+
 export const subscriptionsRequest = () => ({
     type: actionTypes.SUBSCRIPTIONS_REQUEST,
 });
@@ -88,7 +111,24 @@ export const supportWriteSuccess = () => ({
     type: actionTypes.SUPPORT_WRITE_SUCCESS,
 });
 
+export const kaspiAvailableRefresh = (payload) => ({
+    type: actionTypes.KASPI_AVAILABLE_REFRESH,
+    payload,
+});
+
 export const supportWriteFailure = () => ({
     type: actionTypes.SUPPORT_WRITE_FAILURE
+});
+
+export const kaspiWriteRequest = () => ({
+    type: actionTypes.KASPI_WRITE_REQUEST,
+});
+
+export const kaspiWriteSuccess = () => ({
+    type: actionTypes.KASPI_WRITE_SUCCESS,
+});
+
+export const kaspiWriteFailure = () => ({
+    type: actionTypes.KASPI_WRITE_FAILURE
 });
 

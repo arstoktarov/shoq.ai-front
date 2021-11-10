@@ -14,6 +14,15 @@ const initialState = {
         loading: false,
         error: false,
     },
+    kaspiAvailable: {
+        isAvailable: true,
+        leftSeconds: 0,
+    },
+    kaspiWrite: {
+        success: false,
+        loading: false,
+        error: false,
+    },
     loading: false,
 };
 
@@ -76,6 +85,39 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 supportWrite: {
+                    success: true,
+                    loading: false,
+                    error: false,
+                }
+            }
+        }
+        case actionTypes.KASPI_AVAILABLE_REFRESH:
+        {
+            const {isAvailable = true, leftSeconds = 0} = action.payload;
+            return {
+                ...state,
+                kaspiAvailable: {
+                    isAvailable,
+                    leftSeconds
+                },
+            };
+        }
+        case actionTypes.KASPI_WRITE_REQUEST:
+        {
+            return {
+                ...state,
+                kaspiWrite: {
+                    success: false,
+                    loading: true,
+                    error: false,
+                },
+            }
+        }
+        case actionTypes.KASPI_WRITE_SUCCESS:
+        {
+            return {
+                ...state,
+                kaspiWrite: {
                     success: true,
                     loading: false,
                     error: false,

@@ -98,8 +98,8 @@ const Header = (props) => {
                                         {user?.username ?? ""}
                                     </Typography>
                                     <Avatar className={classes.avatar}
-                                            alt="Remy Sharp"
-                                            src={user?.avatar ?? ""}
+                                            alt="Shoq.ai User"
+                                            src={user?.avatar ?? "U"}
                                     />
                                 </Box>
                             </Box>

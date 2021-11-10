@@ -38,7 +38,7 @@ const TestSection = (props) => {
     const classes = useStyles();
     const {topicId} = useParams();
 
-    const { topic, loadinTopic, questions, testResults, questionAnswered, testDone, currentQuestionId, changeCurrentQuestion, testDoneAction, testRetryAction, finishTest } = props;
+    const { topic, loadingTopic, questions, testResults, questionAnswered, testDone, currentQuestionId, changeCurrentQuestion, testDoneAction, testRetryAction, finishTest } = props;
 
     const [fade, setFade] = useState(true);
 
@@ -104,6 +104,8 @@ const TestSection = (props) => {
 
     const gradePercentage = (correctAnswers / totalQuestions) * 100;
 
+    console.log("topic", topic);
+
     return (
         <TopicSectionLayout title="Тест" subtitle={`вопросы: ${(questions.findIndex(question => question.id === currentQuestionId)) + 1}/${questions.length}`}>
                 {
@@ -129,6 +131,7 @@ const TestSection = (props) => {
                         <Fade timeout={500} in={fade}>
                             <Box>
                                 <QuestionItem
+                                    texts={topic?.texts ?? []}
                                     question={questions.find(question => question.id === currentQuestionId) ?? {}}
                                     onAnswerClick={handleAnswerClick}
                                     answered={false}

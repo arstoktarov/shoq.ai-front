@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Box, CardMedia, IconButton, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "components/mui-customized/Button";
 import {ChatBox, ChatUsername} from "components/chat";
 import MarkRadio from "../mark-radio";
 import ReplyView from "../chat/reply-view";
+import ImageViewer from 'react-simple-image-viewer';
 
 const useStyles = makeStyles({
     media: {
@@ -41,10 +42,22 @@ const ChatItem = (props) => {
         answer,
         answerMedia
     } = props;
+    const [currentImage, setCurrentImage] = useState(null);
+    const [isViewerOpen, setIsViewerOpen] = useState(false);
 
     const onAnswerClicked = () => {
         onAnswerClick(item);
     }
+
+    const openImageViewer = useCallback((media) => {
+        setCurrentImage(media);
+        setIsViewerOpen(true);
+    }, []);
+
+    const closeImageViewer = () => {
+        setIsViewerOpen(false);
+        setCurrentImage(null);
+    };
 
     return (
         <ChatBox right={right}>
@@ -63,6 +76,7 @@ const ChatItem = (props) => {
                         media
                             ?
                             <CardMedia
+                                onClick={() => openImageViewer(media)}
                                 className={classes.media}
                                 image={media ?? "Media not assigned"}
                                 title="Media not found"
@@ -80,6 +94,7 @@ const ChatItem = (props) => {
                     {
                         answerMedia ?
                             <CardMedia
+                                onClick={() => openImageViewer(media)}
                                 className={classes.media}
                                 image={answerMedia ?? "Answer not assigned"}
                                 title="Media not found"
@@ -99,6 +114,15 @@ const ChatItem = (props) => {
                 </Box>
                 : ""
             }
+            {isViewerOpen && (
+                <ImageViewer
+                    src={ [currentImage] }
+                    currentIndex={ 0 }
+                    disableScroll={ true }
+                    closeOnClickOutside={ true }
+                    onClose={ closeImageViewer }
+                />
+            )}
         </ChatBox>
     );
 

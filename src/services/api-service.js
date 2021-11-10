@@ -385,6 +385,20 @@ class ApiService {
         });
         return data;
     }
+
+    kaspiAvailableRefresh = async (userId) => {
+        const { data } = await this.session.post('/unauthed/payment/kaspiAvailable', {
+            id: userId
+        });
+        return data;
+    }
+
+    kaspiWrite = async ({ studentId, name, content, number }) => {
+        const { data } = await this.session.post('/unauthed/payment/kaspiWrite', {
+            studentId, name, content, number
+        });
+        return data;
+    }
 }
 
 export default ApiService.instance;
