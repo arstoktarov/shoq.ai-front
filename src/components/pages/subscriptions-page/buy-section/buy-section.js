@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import apiService from "services/api-service";
 import {
     Accordion as MuiAccordion,
@@ -14,6 +14,11 @@ import TextField from "components/mui-customized/TextField/TextField";
 import SelectableSubjects from "components/pages/subscriptions-page/subscription-item/selectable-subjects";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {
+    kaspiAvailableRefreshAction, kaspiWrite,
+    supportAvailableRefreshAction,
+    supportWrite
+} from "actions/subscriptions-page-actions";
 
 const Accordion = withStyles({
     root: {
@@ -63,14 +68,71 @@ const BuySection = (props) => {
     const classes = useStyles(props);
     const history = useHistory();
 
-    const { userId, selectiveId, selectivePairId, subscriptions, buyOption = {}, currentTab } = props;
     const [paymentType, setPaymentType] = React.useState('card');
+    const [kaspiName, setKaspiName] = useState("");
+    const [kaspiNumber, setKaspiNumber] = useState("+7");
+    const [kaspiLeftSeconds, setKaspiLeftSeconds] = useState(0);
+
+    const { userId,
+        selectiveId, selectivePairId,
+        subscriptions, buyOption = {}, currentTab,
+        kaspiAvailable, kaspiAvailableRefresh, kaspiWrite,
+    } = props;
+
+    useEffect(() => {
+        setKaspiLeftSeconds(kaspiAvailable.leftSeconds);
+        let interval = setInterval(() => {
+            setKaspiLeftSeconds((s) => {
+                if (s > 0) {
+                    return s - 1;
+                }
+                else {
+                    if (kaspiAvailable.isAvailable === false) {
+                        kaspiAvailableRefresh(userId);
+                    }
+                    return s;
+                }
+            });
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, [kaspiAvailable]);
+
+    useEffect(() => {
+        kaspiAvailableRefresh(userId);
+    }, []);
+
     const { packageType, optionType } = buyOption;
     const pkg = subscriptions.find((i) => i.packageType === packageType);
     const option = pkg.options.find((i) => i.optionType === optionType);
 
     const { features = [] } = pkg;
     const { subjects } = option;
+
+
+    const handleChange = (input) => (event) => {
+        const value = event.target.value;
+        switch (input) {
+            case "name":
+                setKaspiName(value);
+                break;
+            case "number":
+                handleNumberChange(value)
+                break;
+        }
+    }
+
+    const handleNumberChange = (value) => {
+        let number = value;
+        if (number.length < 2 && number !== "+") {
+            number = "+7" + number;
+        }
+        if (!number.startsWith("+7")) {
+            number = "+7" + number.substring(2, number.length);
+        }
+        setKaspiNumber(number);
+    }
 
     const getPriceByTab = (item) => {
         const { priceByTime } = item;
@@ -102,50 +164,68 @@ const BuySection = (props) => {
     }
 
     const handleRequestClick = () => {
-
+        kaspiWrite({
+            studentId: userId,
+            name: kaspiName,
+            number: kaspiNumber,
+            content: "   ",
+        });
     }
 
     const paymentUI = () => {
         switch (paymentType) {
             case "kaspi":
                 return (
-                    <Box mt={3} display="flex" flexDirection="row" alignItems="center">
-                        <Box mr={2}>
-                            <TextField
-                                InputProps={{
-                                    classes: {
-                                        input: classes.input,
-                                    }
-                                }}
-                                autoComplete="off"
-                                name="number"
-                                type="tel"
-                                defaultValue="+7 705 158 1895"
-                                placeholder="Номер телефона"
-                                variant="outlined"
-                                fullWidth
-                            />
+                    <Box display="flex" flexDirection="column">
+                        <Box mt={3} display="flex" flexDirection="row" alignItems="center">
+                            <Box mr={2}>
+                                <TextField
+                                    InputProps={{
+                                        classes: {
+                                            input: classes.input,
+                                        }
+                                    }}
+                                    autoComplete="off"
+                                    name="number"
+                                    type="tel"
+                                    onChange={handleChange("number")}
+                                    value={kaspiNumber}
+                                    placeholder="Номер телефона"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Box>
+                            <Box mr={2}>
+                                <TextField
+                                    InputProps={{
+                                        classes: {
+                                            input: classes.input,
+                                        }
+                                    }}
+                                    autoComplete="off"
+                                    name="firstName"
+                                    type="text"
+                                    onChange={handleChange("name")}
+                                    placeholder="Ваше имя"
+                                    value={kaspiName}
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Box>
+                            <Box>
+                                <Button className={classes.buyButton} onClick={handleRequestClick} disabled={!kaspiAvailable.isAvailable} color="primary" variant="contained">
+                                    Оставить заявку
+                                </Button>
+                            </Box>
                         </Box>
-                        <Box mr={2}>
-                            <TextField
-                                InputProps={{
-                                    classes: {
-                                        input: classes.input,
-                                    }
-                                }}
-                                autoComplete="off"
-                                name="firstName"
-                                type="text"
-                                placeholder="Ваше имя"
-                                defaultValue="Arsen"
-                                variant="outlined"
-                                fullWidth
-                            />
-                        </Box>
-                        <Box>
-                            <Button className={classes.buyButton} color="primary" variant="contained">
-                                Оставить заявку
-                            </Button>
+                        <Box mt={2}>
+                            {
+                                !kaspiAvailable.isAvailable ?
+                                    <Box>
+                                        <Typography customVariant="littleTextRoboto">{`Кнопка будет доступна через: ${kaspiLeftSeconds}`}</Typography>
+                                    </Box>
+                                    : ""
+                            }
                         </Box>
                     </Box>
                 );
@@ -258,9 +338,15 @@ const BuySection = (props) => {
 
 }
 
-const mapStateToProps = ({ subscriptionsPage: { selectiveId, selectivePairId } }) => ({
+const mapStateToProps = ({ subscriptionsPage: { selectiveId, selectivePairId, kaspiAvailable } }) => ({
     selectiveId,
-    selectivePairId
-})
+    selectivePairId,
+    kaspiAvailable,
+});
 
-export default connect(mapStateToProps, null)(BuySection);
+const mapDispatchToProps = (dispatch) => ({
+    kaspiAvailableRefresh: (userId) => dispatch(kaspiAvailableRefreshAction(userId)),
+    kaspiWrite: (payload) => dispatch(kaspiWrite(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuySection);

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import apiService from "services/api-service";
 import {
     Accordion as MuiAccordion,
@@ -15,6 +15,7 @@ import SelectableSubjects from "components/pages/subscriptions-page/subscription
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import Breadcrumb from "components/mui-customized/breadcrumb";
+import {kaspiAvailableRefreshAction, kaspiWrite} from "actions/subscriptions-page-actions";
 
 const Accordion = withStyles({
     root: {
@@ -83,7 +84,17 @@ const MobileBuySection = (props) => {
     const classes = useStyles(props);
     const history = useHistory();
 
-    const { userId, selectiveId, selectivePairId, subscriptions, buyOption = {}, currentTab, currentSubscription } = props;
+    const [kaspiName, setKaspiName] = useState("");
+    const [kaspiNumber, setKaspiNumber] = useState("+7");
+    const [kaspiLeftSeconds, setKaspiLeftSeconds] = useState(0);
+
+    const { userId,
+        selectiveId, selectivePairId,
+        subscriptions, buyOption = {},
+        currentTab, currentSubscription,
+        kaspiAvailable, kaspiAvailableRefresh, kaspiWrite,
+    } = props;
+
     const [paymentType, setPaymentType] = React.useState('card');
     const { packageType, optionType } = buyOption;
     const pkg = subscriptions.find((i) => i.packageType === packageType);
@@ -91,6 +102,53 @@ const MobileBuySection = (props) => {
 
     const { features = [] } = pkg;
     const { subjects } = option;
+
+    useEffect(() => {
+        setKaspiLeftSeconds(kaspiAvailable.leftSeconds);
+        let interval = setInterval(() => {
+            setKaspiLeftSeconds((s) => {
+                if (s > 0) {
+                    return s - 1;
+                }
+                else {
+                    if (kaspiAvailable.isAvailable === false) {
+                        kaspiAvailableRefresh(userId);
+                    }
+                    return s;
+                }
+            });
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, [kaspiAvailable]);
+
+    useEffect(() => {
+        kaspiAvailableRefresh(userId);
+    }, []);
+
+    const handleChange = (input) => (event) => {
+        const value = event.target.value;
+        switch (input) {
+            case "name":
+                setKaspiName(value);
+                break;
+            case "number":
+                handleNumberChange(value)
+                break;
+        }
+    }
+
+    const handleNumberChange = (value) => {
+        let number = value;
+        if (number.length < 2 && number !== "+") {
+            number = "+7" + number;
+        }
+        if (!number.startsWith("+7")) {
+            number = "+7" + number.substring(2, number.length);
+        }
+        setKaspiNumber(number);
+    }
 
     const getPriceByTab = (item) => {
         const { priceByTime } = item;
@@ -122,7 +180,12 @@ const MobileBuySection = (props) => {
     }
 
     const handleRequestClick = () => {
-
+        kaspiWrite({
+            studentId: userId,
+            name: kaspiName,
+            number: kaspiNumber,
+            content: "   ",
+        });
     }
 
     const paymentUI = () => {
@@ -140,7 +203,8 @@ const MobileBuySection = (props) => {
                                 autoComplete="off"
                                 name="number"
                                 type="tel"
-                                defaultValue="+7 705 158 1895"
+                                onChange={handleChange("number")}
+                                value={kaspiNumber}
                                 placeholder="Номер телефона"
                                 variant="outlined"
                                 fullWidth
@@ -156,14 +220,24 @@ const MobileBuySection = (props) => {
                                 autoComplete="off"
                                 name="firstName"
                                 type="text"
+                                onChange={handleChange("name")}
+                                value={kaspiName}
                                 placeholder="Ваше имя"
-                                defaultValue="Arsen"
                                 variant="outlined"
                                 fullWidth
                             />
                         </Box>
+                        <Box mt={2}>
+                            {
+                                !kaspiAvailable.isAvailable ?
+                                    <Box>
+                                        <Typography customVariant="littleTextRoboto">{`Кнопка будет доступна через: ${kaspiLeftSeconds}`}</Typography>
+                                    </Box>
+                                    : ""
+                            }
+                        </Box>
                         <Box mt={2} width="100%" display="flex" flexDirection="row" justifyContent="center">
-                            <Button className={classes.buyButton} color="primary" variant="contained">
+                            <Button className={classes.buyButton} disabled={!kaspiAvailable.isAvailable} onClick={handleRequestClick} color="primary" variant="contained">
                                 Оставить заявку
                             </Button>
                         </Box>
@@ -247,9 +321,15 @@ const MobileBuySection = (props) => {
 
 }
 
-const mapStateToProps = ({ subscriptionsPage: { selectiveId, selectivePairId } }) => ({
+const mapStateToProps = ({ subscriptionsPage: { selectiveId, selectivePairId, kaspiAvailable } }) => ({
+    kaspiAvailable,
     selectiveId,
     selectivePairId
-})
+});
 
-export default connect(mapStateToProps, null)(MobileBuySection);
+const mapDispatchToProps = (dispatch) => ({
+    kaspiAvailableRefresh: (userId) => dispatch(kaspiAvailableRefreshAction(userId)),
+    kaspiWrite: (payload) => dispatch(kaspiWrite(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MobileBuySection);

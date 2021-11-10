@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Backdrop, Badge as MuiBadge, Box, CircularProgress, Tab as MuiTab} from "@material-ui/core";
+import {Backdrop, Badge as MuiBadge, Box, CircularProgress, Tab as MuiTab, TextField} from "@material-ui/core";
 import Header from "components/header/header";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import SubscriptionItem from "components/pages/subscriptions-page/subscription-item";
@@ -73,13 +73,20 @@ const MobileSubscriptionsPage = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const [currentTab, setCurrentTab] = useState(1);
+    const [supportName, setSupportName] = useState("");
+    const [supportNumber, setSupportNumber] = useState("+7");
+    const [supportContent, setSupportContent] = useState("");
+    const [supportLeftSeconds, setSupportLeftSeconds] = useState(0);
     const [currentSubscriptionType, setCurrentSubscriptionType] = useState(null);
+
     const { enqueueSnackbar } = useSnackbar();
 
     const queryParams = new URLSearchParams(history.location.search);
-    const user_id = queryParams.get('user_id');
+    const user_id = parseInt(queryParams.get('user_id'));
 
-    const { loading, subscriptions = [], loadSubscriptions, selectives, selectiveId, selectivePairId, supportAvailableRefresh } = props;
+    const { loading, subscriptions = [], loadSubscriptions,
+        selectives, selectiveId, selectivePairId,
+        supportAvailable, supportWrite, supportAvailableRefresh } = props;
 
     const [buyOption, setBuyOption] = useState(null);
 
@@ -88,7 +95,28 @@ const MobileSubscriptionsPage = (props) => {
     }
 
     useEffect(() => {
+        setSupportLeftSeconds(supportAvailable.leftSeconds);
+        let interval = setInterval(() => {
+            setSupportLeftSeconds((s) => {
+                if (s > 0) {
+                    return s - 1;
+                }
+                else {
+                    if (supportAvailable.isAvailable === false) {
+                        supportAvailableRefresh(user_id);
+                    }
+                    return s;
+                }
+            });
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, [supportAvailable]);
+
+    useEffect(() => {
         loadSubscriptions();
+        supportAvailableRefresh(user_id);
     }, []);
 
     useEffect(() => {
@@ -98,6 +126,32 @@ const MobileSubscriptionsPage = (props) => {
     useEffect(() => {
         setCurrentSubscriptionType(subscriptions[0]?.packageType ?? null);
     }, [subscriptions]);
+
+    const handleChange = (input) => (event) => {
+        const value = event.target.value;
+        switch (input) {
+            case "name":
+                setSupportName(value);
+                break;
+            case "content":
+                setSupportContent(value);
+                break;
+            case "number":
+                handleNumberChange(value)
+                break;
+        }
+    }
+
+    const handleNumberChange = (value) => {
+        let number = value;
+        if (number.length < 2 && number !== "+") {
+            number = "+7" + number;
+        }
+        if (!number.startsWith("+7")) {
+            number = "+7" + number.substring(2, number.length);
+        }
+        setSupportNumber(number);
+    }
 
     const onTabClick = (index) => () => {
         setCurrentTab(index);
@@ -133,7 +187,12 @@ const MobileSubscriptionsPage = (props) => {
     }
 
     const handleSupportClick = () => {
-        supportAvailableRefresh();
+        supportWrite({
+            studentId: user_id,
+            name: supportName,
+            number: supportNumber,
+            content: supportContent,
+        });
     }
 
     const currentSubscription = subscriptions.find((s) => s.packageType === currentSubscriptionType);
@@ -246,13 +305,74 @@ const MobileSubscriptionsPage = (props) => {
                         :
                         priceList()
                     }
-                    <Box boxSizing="border-box" height="300px" p={3} mt={10}>
+                    <Box boxSizing="border-box" height="500px" p={3} mt={10}>
                         <Typography fontFamily="Roboto" variant="h5">Возникли вопросы?</Typography>
                         <Box mt={2}>
                             <Typography fontFamily="Roboto" customVariant="littleTextRoboto">Закажите звонок для бесплатной консультации</Typography>
                         </Box>
+                        <Box mt={2} width="100%">
+                            <TextField
+                                InputProps={{
+                                    classes: {
+                                        root: classes.textField,
+                                        input: classes.input,
+                                    }
+                                }}
+                                autoComplete="off"
+                                name="name"
+                                onChange={handleChange("name")}
+                                value={supportName}
+                                type="text"
+                                placeholder="Ваше имя"
+                                variant="outlined"
+                            />
+                        </Box>
+                        <Box mt={1}>
+                            <TextField
+                                InputProps={{
+                                    classes: {
+                                        root: classes.textField,
+                                        input: classes.input,
+                                    }
+                                }}
+                                autoComplete="off"
+                                onChange={handleChange("number")}
+                                value={supportNumber}
+                                name="number"
+                                type="tel"
+                                placeholder="Номер телефона"
+                                variant="outlined"
+                            />
+                        </Box>
+                        <Box mt={1} width="300px">
+                            <TextField
+                                InputProps={{
+                                    classes: {
+                                        root: classes.textField,
+                                        input: classes.input,
+                                    }
+                                }}
+                                multiline={true}
+                                rows={3}
+                                autoComplete="off"
+                                onChange={handleChange("content")}
+                                value={supportContent}
+                                name="content"
+                                type="text"
+                                placeholder="Вопрос"
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Box>
+                        {
+                            !supportAvailable.isAvailable ?
+                                <Box mt={2}>
+                                    <Typography customVariant="littleTextRoboto">{`Кнопка будет доступна через: ${supportLeftSeconds}`}</Typography>
+                                </Box>
+                                : ""
+                        }
                         <Box mt={3}>
-                            <Tab label="Заказать звонок" onClick={handleSupportClick} selected />
+                            <Tab label="Заказать звонок" onClick={handleSupportClick} disabled={!supportAvailable.isAvailable} selected />
                         </Box>
                     </Box>
                 </Box>
@@ -261,13 +381,16 @@ const MobileSubscriptionsPage = (props) => {
     );
 }
 
-const mapStateToProps = ({ subscriptionsPage: { subscriptions, selectives, selectiveId, selectivePairId, loading, supportAvailable } }) => ({
-    loading,
-    subscriptions,
-    selectives,
-    selectiveId,
-    selectivePairId,
-    supportAvailable,
+const mapStateToProps = ({
+    subscriptionsPage: {
+        subscriptions, selectives, selectiveId, selectivePairId, loading, supportAvailable
+    } }) => ({
+        loading,
+        subscriptions,
+        selectives,
+        selectiveId,
+        selectivePairId,
+        supportAvailable,
 });
 
 const mapDispatchToProps = (dispatch) => ({
