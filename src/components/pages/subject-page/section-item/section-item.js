@@ -47,12 +47,12 @@ function SectionItem(props) {
                         {
                             topics.map((item, idx) => (
                                 <TopicItem
+                                    key={item.id}
                                     id={item.id}
                                     available={item.available}
                                     completed={item.completed}
                                     active={item.active}
                                     title={item.name}
-                                    key={idx}
                                     idx={idx}
                                 />
                             ))

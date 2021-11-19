@@ -92,6 +92,7 @@ const TrialTestPage = (props) => {
             selectedAnswerIds,
         }));
     }
+
     const getTrailRunningObject = (moveTo) => {
         return {
             moveTo,
@@ -105,11 +106,13 @@ const TrialTestPage = (props) => {
             trialRunning(getTrailRunningObject(id));
         }
     }
+
     const handlePrevPageClick = () => {
         if (prevQuestionId) {
             trialRunning(getTrailRunningObject(prevQuestionId));
         }
     }
+
     const handleNextPageClick = () => {
         if (nextQuestionId) {
             trialRunning(getTrailRunningObject(nextQuestionId));
@@ -119,6 +122,7 @@ const TrialTestPage = (props) => {
     const handleQuestionMarkClick = (questionId) => {
         questionMarked(questionId);
     }
+
     const handleAnswerClick = (question, answer) => (event) =>  {
         answerSelected({
             questionId: question.id,
@@ -127,6 +131,7 @@ const TrialTestPage = (props) => {
     }
 
     if (trialTest?.result) return (<Redirect to="/trial/test/result"/>);
+
     return (
         <MainLayout menuComponent={<TrialMenu trialTest={trialTest} headers={headers} onCellClick={handleMenuCellClick}/>}>
             <Backdrop style={{zIndex: 99999}} open={loading || trialTest.result !== null} ><CircularProgress /></Backdrop>

@@ -4,6 +4,7 @@ import CircleBoundary from "components/circle-boundary";
 import PropTypes from 'prop-types';
 import useStyles from "./styles";
 import {withStyles} from "@material-ui/core/styles";
+import helpers from "helpers";
 
 const SmallAvatar = withStyles((theme) => ({
     root: {
@@ -28,7 +29,7 @@ const TrialAnswerItem = (props) => {
             <CircleBoundary className={classes.number}>
                 <Typography style={{color: "#5B7083", lineHeight: "1"}}>{String.fromCharCode(97 + idx)}</Typography>
             </CircleBoundary>
-            <Typography component="div" className={classes.text}><Box dangerouslySetInnerHTML={{__html: title}}/></Typography>
+            <Typography component="div" className={classes.text}><Box dangerouslySetInnerHTML={{__html: helpers.replaceMtag(title)}}/></Typography>
             {
                 answered
                 ?

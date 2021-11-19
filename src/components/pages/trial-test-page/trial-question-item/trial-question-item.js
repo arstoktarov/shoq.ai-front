@@ -7,12 +7,15 @@ import TrialAnswerItem from "components/pages/trial-test-page/trial-answer-item"
 import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import PropTypes from "prop-types";
 import useStyles from "./styles";
+import helpers from "../../../../helpers";
 
 const TrialQuestionItem = (props) => {
     const classes = useStyles();
     const { trialFinished, question, onMarkClick, onTextClick, text, onAnswerClick } = props;
 
     const { id, isMarked, type, isAnswered, question: title, answers, textId, selectedAnswerIds, correctAnswerIds } = question;
+
+    helpers.replaceMtag(title);
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -54,7 +57,8 @@ const TrialQuestionItem = (props) => {
             {
                 <Box hidden={!textId} width="100%" height="50px">
                     <Button onClick={handleTextClick} className={classes.openTextButton} fullWidth variant="contained" disableFocusRipple disableTouchRipple startIcon={<DescriptionRoundedIcon />}>
-                        {text?.title}
+                        <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(text?.title ?? "")}}>
+                        </span>
                     </Button>
                 </Box>
             }
@@ -71,7 +75,7 @@ const TrialQuestionItem = (props) => {
                 </Box>
                 <Box ml={2} display="flex" flexDirection="row" alignItems="center">
                     <Typography component="div" customVariant="subtitleRoboto" fontWeight="500" style={{overflowWrap: "break-word", margin: 0}} color="textSecondary">
-                        <span dangerouslySetInnerHTML={{__html: title}}>
+                        <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(title ?? "")}}>
                         </span>
                     </Typography>
                 </Box>
@@ -93,11 +97,14 @@ const TrialQuestionItem = (props) => {
                 <Modal onClose={() => setModalOpen(false)} open={modalOpen} className={classes.modal}>
                     <Box className={classes.modalBox}>
                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                            <Typography variant="h6">{text?.title ?? ""}</Typography>
+                            <Typography variant="h6">
+                                <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(text?.title ?? "")}}>
+                                </span>
+                            </Typography>
                         </Box>
                         <Box mt={2}>
                             <Typography component="div" variant="subtitle1"><Box
-                                dangerouslySetInnerHTML={{__html: text?.content}}/></Typography>
+                                dangerouslySetInnerHTML={{__html: helpers.replaceMtag(text?.content ?? "")}}/></Typography>
                         </Box>
                     </Box>
                 </Modal>

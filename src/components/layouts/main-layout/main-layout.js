@@ -31,8 +31,6 @@ const MainLayout = (props) => {
 
     const { menuComponent, user } = props;
 
-    console.log(user);
-
     return (
         <Box style={{minHeight: "1000px"}}>
             <Box className={classes.mainLayout}>

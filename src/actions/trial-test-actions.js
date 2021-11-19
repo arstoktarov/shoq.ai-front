@@ -1,5 +1,6 @@
 import { actionTypes } from '../constants'
 import apiService from "services/api-service";
+import helpers from "../helpers";
 
 export const loadTrialTest = () => async (dispatch) => {
     dispatch(trialTestRequest());

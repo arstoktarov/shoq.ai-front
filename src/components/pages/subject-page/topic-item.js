@@ -38,7 +38,7 @@ const TopicItem = (props) => {
     }
 
     const onTopicClick = (e) => {
-        if (active) {
+        if (active || completed) {
             history.push(location.pathname + `/topics/${id}`);
         }
         else {

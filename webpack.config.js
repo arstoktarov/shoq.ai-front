@@ -38,6 +38,7 @@ module.exports = {
             services: path.resolve('./src/services'),
             svg: path.resolve('./public/svg'),
             constantValues: path.resolve('./src/constants'),
+            helpers: path.resolve('./src/helpers'),
         }
     },
     output: {
