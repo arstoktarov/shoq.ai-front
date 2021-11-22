@@ -4,6 +4,7 @@ import AnswerItem from "../answer-item";
 import {makeStyles} from "@material-ui/core/styles";
 import AnswerItemContainer from "components/pages/topic-page/test-section/answer-item/answer-item-container";
 import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import helpers from "helpers";
 
 const useStyles = makeStyles((theme) => ({
     openTextButton: {
@@ -60,13 +61,14 @@ const QuestionItem = (props) => {
             {
                 <Box hidden={!textId} width="100%" height="50px">
                     <Button onClick={handleTextClick} className={classes.openTextButton} fullWidth variant="contained" disableFocusRipple disableTouchRipple startIcon={<DescriptionRoundedIcon />}>
-                        {text?.title}
+                        <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(text?.title ?? "")}}>
+                        </span>
                     </Button>
                 </Box>
             }
             <Box mt={1}>
                 <Typography style={{textIndent: "50px", overflowWrap: "break-word"}} color="textSecondary">
-                    <Box dangerouslySetInnerHTML={{__html: title}}/>
+                    <Box dangerouslySetInnerHTML={{__html: helpers.replaceMtag(title ?? "")}}/>
                 </Typography>
             </Box>
             <Box mt={4} display="flex" flexDirection="column" alignItems="center">
@@ -90,7 +92,7 @@ const QuestionItem = (props) => {
                     </Box>
                     <Box mt={2}>
                         <Typography component="div" variant="subtitle1"><Box
-                            dangerouslySetInnerHTML={{__html: text?.content}}/></Typography>
+                            dangerouslySetInnerHTML={{__html:helpers.replaceMtag(text?.content ?? "")}}/></Typography>
                     </Box>
                 </Box>
             </Modal>

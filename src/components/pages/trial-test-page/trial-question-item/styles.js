@@ -17,6 +17,7 @@ export default makeStyles((theme) => ({
         justifyContent: "center",
     },
     modalBox: {
+        overflowX: "hidden",
         padding: theme.spacing(6),
         minWidth: "40%",
         maxWidth: "60%",

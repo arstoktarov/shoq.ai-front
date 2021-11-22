@@ -3,6 +3,7 @@ import {Box, ButtonBase, Typography} from "@material-ui/core";
 import CircleBoundary from "components/circle-boundary";
 import PropTypes from 'prop-types';
 import useStyles from "./styles";
+import helpers from "helpers";
 
 
 const AnswerItem = (props) => {
@@ -18,7 +19,7 @@ const AnswerItem = (props) => {
                     <Typography style={{color: "#5B7083", lineHeight: "1"}}>{String.fromCharCode(97 + idx)}</Typography>
                 </CircleBoundary>
                 {
-                    titleComponent ?? <Typography className={classes.text}><Box dangerouslySetInnerHTML={{__html: title}}/></Typography>
+                    titleComponent ?? <Typography className={classes.text}><Box dangerouslySetInnerHTML={{__html: helpers.replaceMtag(title)}}/></Typography>
                 }
         </ButtonBase>
     );
