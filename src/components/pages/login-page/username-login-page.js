@@ -12,8 +12,8 @@ const UsernameLoginPage = (props) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const [username, setUsername] = useState('dendereden');
-    const [password, setPassword] = useState('123456');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState("");
     const [backdropOpen, setBackdropOpen] = useState(false);
 
