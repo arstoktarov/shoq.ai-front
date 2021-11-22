@@ -79,7 +79,13 @@ const TrialPage = (props) => {
                 <SelectivesSection />
                 <Box mt={3}>
                     <Typography className={classes.infoText}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                        Вы можете пройти пробное тестирование для проверки уровня своих знаний и готовности к ЕНТ. 
+                        Пробное тестирование от Shoq.ai имеет такую же структуру как современная 140-бальная система ЕНТ.
+                        Начав тест вы увидите таймер, который позволит вам считать время, за которое вы проходите тест. 
+                        Таймер не имеет ограничений, и служит только в целях информирования. 
+                        В процессе теста вы также увидите две кнопки: "Сохранить и выйти" и "Завершить".
+                        Нажмите "Сохранить и выйти" если вы хотите временно выйти из теста, сохранив все свои ответы и продолжить позже.
+                        В случае если вы закончили тест и хотите увидеть результаты, нажмите кнопку "Завершить".
                     </Typography>
                 </Box>
                 <Box mt={5} display="flex" flexDirection="column">
