@@ -75,14 +75,7 @@ const RegisterPage = (props) => {
                 setPasswordRepeat(value)
                 break;
             case 'phone':
-                let number = value;
-                if (number.length < 2) {
-                    number = "+7" + number;
-                }
-                else if (!number.startsWith("+7")) {
-                    number = "+7" + number.substring(2, number.length);
-                }
-                setPhone(number)
+                handleNumberChange(value);
                 break;
             case 'grade':
                 setGrade(value)
@@ -91,6 +84,19 @@ const RegisterPage = (props) => {
                 setCode(value)
                 break;
         }
+    }
+
+    const handleNumberChange = (value) => {
+        let number = value;
+        number = number.match(/(\+.|\d*)/g).join('');
+        if (number.length > 12) return;
+        if (number.length < 2 && number !== "+") {
+            number = "+7" + number;
+        }
+        if (!number.startsWith("+7")) {
+            number = "+7" + number.substring(2, number.length);
+        }
+        setPhone(number);
     }
 
     const handleGradeClick = (value) => {

@@ -32,7 +32,6 @@ const TrialTestResult = (props) => {
 
     useEffect(() => {
         const currentTrialId = localStorage.getItem("currentTrialId");
-        console.log(currentTrialId);
         if (currentTrialId) {
             loadTrialTest(currentTrialId);
         }
@@ -100,6 +99,7 @@ const TrialTestResult = (props) => {
     const handleQuestionMarkClick = (questionId) => {
     }
     const handleAnswerClick = (question, answer) => (event) =>  {
+        
     }
 
     return (

@@ -58,7 +58,7 @@ const SelectivesSection = (props) => {
                 <CircularProgress />
             </Backdrop>
             <Typography>Профильные предметы:</Typography>
-            <Box ml="auto" display="flex" flexDirection="row">
+            <Box display="flex" flexDirection="row">
                 <Box ml={3}>
                     <FormControl className={classes.formControl}>
                         <Select

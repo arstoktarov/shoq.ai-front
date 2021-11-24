@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Backdrop from "components/backdrop";
 import { login } from "actions/login-actions";
+import helpers from "helpers";
 
 const LoginPage = (props) => {
     const classes = useStyles();
@@ -17,9 +18,6 @@ const LoginPage = (props) => {
     const [number, setNumber] = useState('+7');
     const [password, setPassword] = useState('');
     const [backdropOpen, setBackdropOpen] = useState(false);
-
-    console.log("isAuth", isAuthenticated);
-    console.log("errorMessage", errorMessage);
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -45,6 +43,8 @@ const LoginPage = (props) => {
 
     const handleNumberChange = (value) => {
         let number = value;
+        number = number.match(/(\+.|\d*)/g).join('');
+        if (number.length > 12) return;
         if (number.length < 2 && number !== "+") {
             number = "+7" + number;
         }

@@ -202,9 +202,21 @@ const WebSubscriptionsPage = (props) => {
                 </Box>
                 <Box width="800px" flexDirection="column" display="flex" justifyContent="center">
                     <Box height="150px">
-                        <Typography fontFamily="Roboto" variant="h5">Заплатите 50 тыщь долларов миллионов</Typography>
+                        <Typography fontFamily="Roboto" variant="h5">
+                            {
+                                !buyOption ?
+                                "Подписки на онлайн курсы от Shoq.ai"
+                                : "Выберите метод оплаты"
+                            }
+                        </Typography>
                         <Box mt={2}>
-                            <Typography fontFamily="Roboto" customVariant="littleTextRoboto">и получите все что пожелаете</Typography>
+                            <Typography fontFamily="Roboto" customVariant="littleTextRoboto">
+                                {
+                                    !buyOption ?
+                                    "созданные для вас"
+                                    : "Пожалуйста выберите оплату через банковскую карту, другие методы берут большие проценты"
+                                }
+                            </Typography>
                         </Box>
                     </Box>
                     <Box display="flex" flexDirection="row" justifyContent="center" position="sticky" top="10px" zIndex="5">

@@ -70,6 +70,11 @@ const TrialPage = (props) => {
         continueTrial();
     }
 
+    const onHistoryTrialClick = (id) => (event) => {
+        localStorage.setItem("currentTrialId", id);
+        routerHistory.push('/trial/test/result');
+    }
+
     return (
         <MainLayout>
             <Backdrop style={{zIndex: 99999}} open={loading || readyToRedirect}>
@@ -130,7 +135,7 @@ const TrialPage = (props) => {
                             </TableHead>
                             <TableBody>
                                 {history.map((row, idx) => (
-                                    <StyledTableRow key={idx}>
+                                    <StyledTableRow onClick={onHistoryTrialClick(row.id)} key={idx}>
                                         <StyledTableCell component="th" scope="row">
                                             <Typography customVariant="subtitleRoboto">
                                                 {row.startData}
