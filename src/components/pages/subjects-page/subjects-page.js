@@ -55,7 +55,7 @@ const SubjectsPage = (props) => {
             <Backdrop style={{zIndex: 99999}} open={loading}>
                 <CircularProgress />
             </Backdrop>
-            <Box px={3} py={2} display="flex" flexDirection="row" flexWrap="wrap">
+            <Box px={3} py={2} display="flex" flexDirection="column">
                 <Box>
                     <SelectivesSection />
                 </Box>
