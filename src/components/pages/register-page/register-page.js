@@ -11,6 +11,7 @@ import Typography from "components/mui-customized/Typography";
 import {registerFailure, requestRegister} from "actions";
 import {connect} from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
 
 const IconButton = withStyles({
     root : {
@@ -39,11 +40,16 @@ const RegisterPage = (props) => {
     const [passwordRepeat, setPasswordRepeat] = useState("");
     const [phone, setPhone] = useState("+7");
     const [grade, setGrade] = useState(10);
+    const [captchaSuccess, setCaptchaSuccess] = useState(false);
 
     const register = async (event) => {
         event.preventDefault();
         if (password !== passwordRepeat) {
             registerFailure("Пароли не совпадают");
+            return;
+        }
+        if (!captchaSuccess) {
+            registerFailure("Проверка recaptcha не пройдена");
             return;
         }
         registerAction(fullname, username, password, phone, grade);
@@ -104,7 +110,13 @@ const RegisterPage = (props) => {
         setGrade(value);
     }
 
-    const onChange = (value) => {
+    const onCaptchaChange = (value) => {
+        const formData = new FormData();
+        formData.append('secret', '6LcXAWgdAAAAAFm5VUjbNorlofWqo_bJj02BxDot');
+        formData.append('response', value);
+        axios.post('https://www.google.com/recaptcha/api/siteverify', formData).then(() => {
+            setCaptchaSuccess(true);
+        });
         console.log("Captcha value:", value);
     }
 
@@ -228,7 +240,7 @@ const RegisterPage = (props) => {
                 </form>
                 <ReCAPTCHA
                     sitekey="6LcXAWgdAAAAAGagQ3kY3jaIl_hvb5bSAzl5_VJG"
-                    onChange={onChange}
+                    onChange={onCaptchaChange}
                 />
                 <Box mt={4} mb={2}>
                     <Button
