@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import {loadSubjects} from "actions/subject-list-actions";
 import SubjectItem from "components/subject/subject-item";
 import {useHistory} from "react-router-dom";
-import SelectivesSection from "components/pages/trial-page/selectives-section";
+import SubjectSelectivesSection from "./subjects-selectives-section";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -57,7 +57,7 @@ const SubjectsPage = (props) => {
             </Backdrop>
             <Box px={3} py={2} display="flex" flexDirection="column">
                 <Box>
-                    <SelectivesSection />
+                    <SubjectSelectivesSection />
                 </Box>
                 <div className={classes.root}>
                     {

@@ -47,12 +47,10 @@ export const checkAuth = () => {
             apiService.setAccessToken(access_token);
             try {
                 const res = await apiService.me();
-                console.log("me result", res);
                 dispatch(userSuccess(res.data));
                 dispatch(authSuccess());
             }
             catch (e) {
-                console.log("me result", e);
                 dispatch(authFailure({
                     errorMessage: "Вы вошли с другого устройства"
                 }));

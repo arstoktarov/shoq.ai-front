@@ -17,6 +17,30 @@ export const loadSubjects = () => {
     }
 }
 
+export const loadSubjectSelectives = () => async (dispatch) => {
+    dispatch(subjectSelectivesListRequest());
+    try {
+        const { data: selectivesList } = await apiService.getSubjectSelectives();
+        const { data: { courseSelectives } } = await apiService.me();
+        dispatch(subjectSelectivesListSuccess({ selectivesList, selectives: courseSelectives }));
+    }
+    catch (e) {
+        dispatch(subjectSelectivesListFailure(e));
+    }
+}
+
+export const setSubjectSelectives = ({ selectiveId, selectivePairId }) => async (dispatch) => {
+    dispatch(subjectSelectivesListRequest());
+    try {
+        const { data: { courseSelectives } } = await apiService.setSubjectSelectives(selectiveId, selectivePairId);
+        const { data: selectivesList } = await apiService.getSubjectSelectives();
+        dispatch(subjectSelectivesListSuccess({ selectivesList, selectives: courseSelectives }));
+    }
+    catch (e) {
+
+    }
+}
+
 export const subjectsRequest = () => {
     return {
         type: actionTypes.SUBJECTS_REQUEST,
@@ -36,3 +60,17 @@ export const subjectsFailure = (payload) => {
         payload,
     }
 }
+
+export const subjectSelectivesListRequest = () => ({
+    type: actionTypes.SUBJECT_SELECTIVES_LIST_REQUEST,
+});
+
+export const subjectSelectivesListSuccess = (payload) => ({
+    type: actionTypes.SUBJECT_SELECTIVES_LIST_SUCCESS,
+    payload,
+});
+
+export const subjectSelectivesListFailure = (payload) => ({
+    type: actionTypes.SUBJECT_SELECTIVES_LIST_FAILURE,
+    payload,
+});

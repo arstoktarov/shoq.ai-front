@@ -42,8 +42,12 @@ const TestSection = (props) => {
 
     const [fade, setFade] = useState(true);
 
+    const allQuestionsAnswered = () => {
+        return questions.every(question => question.answered === true)
+    }
+
     const isTestDone = () => {
-    return questions.every(question => question.answered === true);
+        return allQuestionsAnswered() || testResults?.bestAttempt;
     }
 
     useEffect(() => {

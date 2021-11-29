@@ -241,6 +241,19 @@ class ApiService {
         return data;
     }
 
+    getSubjectSelectives = async () => {
+        const { data } = await this.session.get('/authed/mycourses/selectives/get');
+        return data;
+    }
+
+    setSubjectSelectives = async (selectiveFirst, selectiveSecond) => {
+        const { data } = await this.session.post('/authed/mycourses/selectives/set', {
+            selectiveFirst,
+            selectiveSecond
+        });
+        return data;
+    }
+
     getSelectives = async () => {
         const { data } = await this.session.get('/authed/selectives/get');
         return data;

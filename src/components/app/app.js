@@ -42,7 +42,6 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(`/subscriptions?user_id=${this.props.user?.id}`);
     }
 
     render() {

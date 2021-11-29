@@ -10,6 +10,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import Typography from "components/mui-customized/Typography";
 import {registerFailure, requestRegister} from "actions";
 import {connect} from "react-redux";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const IconButton = withStyles({
     root : {
@@ -101,6 +102,10 @@ const RegisterPage = (props) => {
 
     const handleGradeClick = (value) => {
         setGrade(value);
+    }
+
+    const onChange = (value) => {
+        console.log("Captcha value:", value);
     }
 
     if (verificationId !== null) {
@@ -221,6 +226,10 @@ const RegisterPage = (props) => {
                         </Box>
                     </Box>
                 </form>
+                <ReCAPTCHA
+                    sitekey="6LcXAWgdAAAAAGagQ3kY3jaIl_hvb5bSAzl5_VJG"
+                    onChange={onChange}
+                />
                 <Box mt={4} mb={2}>
                     <Button
                         onClick={register}
