@@ -238,10 +238,12 @@ const RegisterPage = (props) => {
                         </Box>
                     </Box>
                 </form>
-                <ReCAPTCHA
-                    sitekey="6LcXAWgdAAAAAGagQ3kY3jaIl_hvb5bSAzl5_VJG"
-                    onChange={onCaptchaChange}
-                />
+                <Box mt={1}>
+                    <ReCAPTCHA
+                        sitekey="6LcXAWgdAAAAAGagQ3kY3jaIl_hvb5bSAzl5_VJG"
+                        onChange={onCaptchaChange}
+                    />
+                </Box>
                 <Box mt={4} mb={2}>
                     <Button
                         onClick={register}

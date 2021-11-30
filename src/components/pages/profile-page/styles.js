@@ -1,6 +1,6 @@
 import {makeStyles} from "@material-ui/core/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     root: {
         maxWidth: "800px",
         borderRadius: 0,
@@ -24,6 +24,7 @@ export default makeStyles(() => ({
         width: "100%",
         height: "100%",
         border: "4px solid #FFFFFF",
+        backgroundColor: "white",
     },
     modal: {
         display: "flex",

@@ -18,16 +18,16 @@ import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
 import TrialStatisticsSection from "components/pages/profile-page/trial-statistics-section";
 
 
-const Link = withStyles({
+const Link = withStyles((theme) => ({
     root: {
         userSelect: "none",
         textDecoration: "underline",
-        textDecorationColor: "#5B7083",
+        textDecorationColor: theme.palette.primary.main,
         '&:hover': {
             textDecoration: "none",
         }
     }
-})(MuiLink);
+}))(MuiLink);
 
 const ProfilePage = (props) => {
     const classes = useStyles();
@@ -154,7 +154,7 @@ const ProfilePage = (props) => {
                             <Box display="flex" flexDirection="column" mt="-60px">
                                 <Box width="120px" height="120px">
                                     <Avatar
-                                        src={avatar ?? "https://baltic-grlk5lagedl.stackpathdns.com/production/baltic/images/1549357428364401-ariana-grande-bstg-2018-billboard-u-1548.jpg?w=1920&h=800&fit=clip&crop=top&auto=%5B%22format%22%2C%20%22compress%22%5D&cs=srgb"}
+                                        src={avatar}
                                         className={classes.avatar}
                                     />
                                 </Box>

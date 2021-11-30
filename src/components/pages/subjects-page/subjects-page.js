@@ -124,11 +124,11 @@ const SubjectsPage = (props) => {
 
 }
 
-const mapStateToProps = ({ subjectList, selectivesReducer }) => {
+const mapStateToProps = ({ subjectList }) => {
     return {
         list: subjectList.list,
         loading: subjectList.loading,
-        selectives: selectivesReducer,
+        selectives: subjectList.selectives,
     };
 };
 
