@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Header from "../../header";
-import {Box, Divider, Fade} from "@material-ui/core";
+import {Backdrop, CircularProgress, Box, Divider, Fade} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Breadcrumb from "../../mui-customized/breadcrumb";
 import TestSection from "./test-section/test-section";
@@ -41,6 +41,9 @@ const TopicPage = (props) => {
 
     return (
         <Box className={classes.root}>
+            <Backdrop style={{zIndex: 99999}} open={loading}>
+                <CircularProgress />
+            </Backdrop>
             <Header/>
             <Box mt={3} mx="auto" zIndex={1} width="60vw" className={classes.body}>
                 <Box display="flex" justifyContent="flex-start">

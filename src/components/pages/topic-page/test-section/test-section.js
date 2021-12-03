@@ -60,6 +60,12 @@ const TestSection = (props) => {
     }, [questions]);
 
     useEffect(() => {
+        if (topic?.history?.testWrapper?.bestAttempt) {
+            setTestDone();
+        }
+    }, [topic]);
+
+    useEffect(() => {
         setFade(true);
     }, [currentQuestionId]);
 

@@ -17,7 +17,7 @@ const PrivateRoute = ({ component: Component, ...props }) => {
 
     if (loading) return <AppLoadingBar />
 
-    if (!isAuthenticated) return <Redirect to="login"/> // history.push('/login');
+    if (!isAuthenticated) return <Redirect to="/login"/> // history.push('/login');
 
     return (
         <Route

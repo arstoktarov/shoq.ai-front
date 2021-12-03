@@ -412,6 +412,14 @@ class ApiService {
         });
         return data;
     }
+
+    captcha = async (response) => {
+        const { data } = await this.session.post('/public/captcha', {
+            response,
+        });
+        console.log(data);
+        return data;
+    }
 }
 
 export default ApiService.instance;

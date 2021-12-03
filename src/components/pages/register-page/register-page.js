@@ -110,14 +110,11 @@ const RegisterPage = (props) => {
         setGrade(value);
     }
 
-    const onCaptchaChange = (value) => {
+    const onCaptchaChange = async (value) => {
         const formData = new FormData();
-        formData.append('secret', '6LcXAWgdAAAAAFm5VUjbNorlofWqo_bJj02BxDot');
-        formData.append('response', value);
-        axios.post('https://www.google.com/recaptcha/api/siteverify', formData).then(() => {
-            setCaptchaSuccess(true);
-        });
         console.log("Captcha value:", value);
+        const val = await apiService.captcha(value);
+        console.log("api response", val);
     }
 
     if (verificationId !== null) {
@@ -240,7 +237,7 @@ const RegisterPage = (props) => {
                 </form>
                 <Box mt={1}>
                     <ReCAPTCHA
-                        sitekey="6LcXAWgdAAAAAGagQ3kY3jaIl_hvb5bSAzl5_VJG"
+                        sitekey="6LfpbXUdAAAAACmRpaEdJZDYiLbo5vb7cVFAHQpT"
                         onChange={onCaptchaChange}
                     />
                 </Box>
