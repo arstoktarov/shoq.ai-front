@@ -42,6 +42,8 @@ const RegisterPage = (props) => {
     const [grade, setGrade] = useState(10);
     const [captchaSuccess, setCaptchaSuccess] = useState(false);
 
+    console.log(captchaSuccess);
+
     const register = async (event) => {
         event.preventDefault();
         if (password !== passwordRepeat) {
@@ -111,10 +113,10 @@ const RegisterPage = (props) => {
     }
 
     const onCaptchaChange = async (value) => {
-        const formData = new FormData();
-        console.log("Captcha value:", value);
-        const val = await apiService.captcha(value);
-        console.log("api response", val);
+        if (value) {
+            const { data: { success } } = await apiService.captcha(value);
+            setCaptchaSuccess(success);
+        }
     }
 
     if (verificationId !== null) {
