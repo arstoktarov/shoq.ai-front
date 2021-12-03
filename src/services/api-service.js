@@ -417,7 +417,7 @@ class ApiService {
         const { data } = await this.session.post('/public/captcha', {
             response,
         }, {
-            baseURL: "http://shoq.ai:4000"
+            baseURL: "https://shoq.ai:4000"
         });
         console.log(data);
         return data;
