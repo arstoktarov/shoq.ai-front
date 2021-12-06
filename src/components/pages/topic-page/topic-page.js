@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
         right: 0,
     },
     blurred: {
-        "filter": "blur(4px)",
+        //"filter": "blur(4px)",
         "-webkit-filter": "blur(4px)",
     },
 }));
@@ -69,12 +69,12 @@ const TopicPage = (props) => {
                     </Box>
                     <Divider className={classes.divider} variant="fullWidth"/>
                     <Box position="relative" className={!topic?.history?.test ? classes.blurred : ""}>
-                        {/*{*/}
-                        {/*    !topic?.history?.test ?*/}
-                        {/*    <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"*/}
-                        {/*         bottom="0" />*/}
-                        {/*    : ""*/}
-                        {/*}*/}
+                        {
+                            !topic?.history?.test ?
+                            <Box zIndex="9999" position="absolute" width="100%" height="100%" top="0" left="0" right="0"
+                                 bottom="0" />
+                            : ""
+                        }
                         <Box>
                             <AssignmentSection />
                         </Box>
