@@ -126,7 +126,7 @@ const TestSection = (props) => {
                                     <AnswerItem
                                         disabled
                                         idx={23}
-                                        title={`Вы получили ${gradePercentage.toFixed()}% (${correctAnswers} правильных из ${totalQuestions}). Вы можете пересдать тест`}
+                                        title={`Ваш лучший результат ${gradePercentage.toFixed()}% (${correctAnswers} правильных из ${totalQuestions}). Вы можете пересдать тест.`}
                                         variant={((correctAnswers/totalQuestions) > threshold) ? "correct" : "incorrect"}
                                     />
                                     <AnswerItem

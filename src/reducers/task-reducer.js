@@ -19,6 +19,8 @@ export default function(state = initialState, action) {
                 return {
                     ...state,
                     tasks,
+                    messageStudent: [],
+                    messageModerator: [],
                     loading: false,
                     error: false,
                     errorMessage: "",

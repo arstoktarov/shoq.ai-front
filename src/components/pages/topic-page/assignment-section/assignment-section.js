@@ -81,6 +81,7 @@ const AssignmentSection = (props) => {
                             text={message.addMessage}
                             media={message.addImage}
                             answer={message.message}
+                            mark={message.mark}
                             answerMedia={message.answerImage}
                             task={message}
                             replyText={message.replyTo.message}
