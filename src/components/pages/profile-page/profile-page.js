@@ -184,7 +184,7 @@ const ProfilePage = (props) => {
                             <TrialStatisticsSection />
                         </Box> */}
                     </Box>
-                    <Box className={classes.inDevelopmentBackground} height="200px" zIndex="9999" display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
+                    <Box className={classes.inDevelopmentBackground} height="450px" zIndex="9999" display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
                         <Box ml={7}>
                         <Typography>На стадии разработки</Typography>
                         </Box>

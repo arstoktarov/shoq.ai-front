@@ -44,6 +44,6 @@ export default makeStyles((theme) => ({
     },
     inDevelopmentBackground: {
         backgroundImage: `url("${LoginSvgImage}")`,
-        backgroundSize: "800px 200px",
+        backgroundSize: "130% 100%",
     }
 }));
