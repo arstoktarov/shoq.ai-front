@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/styles";
 import {useHistory} from "react-router-dom";
 import Typography from "components/mui-customized/Typography";
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import helpers from "../../../../helpers";
 
 const useStyles = makeStyles((theme) => ({
     buttonBase: (props) => ({
@@ -39,15 +40,19 @@ const NotificationItem = (props) => {
                     </Avatar>
                 </Box>
                     <Box ml={1} py={1} color="black">
-                        <Typography color="inherit" variant="subtitle1">
+                        <Typography color="inherit" variant="subtitleRoboto" fontSize="16px">
                             {/*<span style={{fontWeight: "lighter"}}>*/}
                             {/*    {item.topic}*/}
                             {/*</span>*/}
-                            <span> { item.topic } </span>
+                            <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(item?.topic ?? "")}}>
+                            </span>
                         </Typography>
-                        <Typography customVariant="subtitleRoboto" color="textSecondary">
-                            {item.message}
-                        </Typography>
+                        <Box mt={0.5}>
+                            <Typography customVariant="subtitleRoboto" color="textSecondary">
+                                <span dangerouslySetInnerHTML={{__html: helpers.replaceMtag(item?.message ?? "")}}>
+                                </span>
+                            </Typography>
+                        </Box>
                     </Box>
             </Box>
         </ButtonBase>

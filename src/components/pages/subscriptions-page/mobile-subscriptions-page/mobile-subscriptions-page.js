@@ -243,9 +243,9 @@ const MobileSubscriptionsPage = (props) => {
                         <Breadcrumb onClick={handleBackClick} primaryText="Назад"/>
                     </Box>
                     <Box px={3}>
-                        <Typography fontFamily="Roboto" variant="h5">Заплатите 50 тыщь долларов миллионов</Typography>
+                        <Typography fontFamily="Roboto" variant="h5">Подписки на онлайн курсы от Shoq.ai</Typography>
                         <Box mt={2}>
-                            <Typography fontFamily="Roboto" customVariant="littleTextRoboto">и получите все что пожелаете</Typography>
+                            <Typography fontFamily="Roboto" customVariant="littleTextRoboto">созданные для вас</Typography>
                         </Box>
                     </Box>
                     {

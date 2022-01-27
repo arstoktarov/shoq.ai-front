@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
+import {Box} from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import defaultTheme from "../themes/default-theme";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -8,6 +9,8 @@ import apiService from "services/api-service";
 import DateFnsUtils from '@date-io/date-fns';
 import { requestAccessToken } from "actions";
 import {connect} from "react-redux";
+import Typography from "components/mui-customized/Typography";
+import {ShoqaiBrandIcon} from "components/icons";
 
 import SubjectPage from "components/pages/subject-page";
 import TopicPage from "components/pages/topic-page";
@@ -34,6 +37,8 @@ import TrialTestResult from "components/pages/trial-test-page/trial-test-result"
 import NotificationsPage from "components/pages/notifications-page";
 import SubscriptionsPage from "components/pages/subscriptions-page";
 import WebSubscriptionsPage from "components/pages/subscriptions-page/web-subscriptions-page";
+import {isMobile} from 'react-device-detect';
+import MobileStoreButton from 'react-mobile-store-button';
 
 class App extends Component {
 
@@ -45,6 +50,44 @@ class App extends Component {
     }
 
     render() {
+        // if (isMobile) {
+        //     return (
+        //         <MuiThemeProvider theme={defaultTheme}>
+        //             <Box>
+        //                 <Box>
+        //                     <ShoqaiBrandIcon height="100px" width="50px"/>
+        //                 </Box>
+        //                 <Box p={5} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+        //                     <Typography style={{
+        //                         textAlign: "center",
+        //                     }} fontFamily="Roboto" variant="h5">Shoq.ai доступен в мобильной версии</Typography>
+        //                 </Box>
+        //                 <Box display="flex" flexDirection="column" alignItems="center" marginLeft="10%">
+        //                     <MobileStoreButton
+        //                         style={{
+        //                             height: "70px",
+        //                             width: "250px"
+        //                         }}
+        //                         store="android"
+        //                         url={""}
+        //                         linkProps={{ title: 'iOS Store Button' }}
+        //                     />
+        //                     <Box pl="25px">
+        //                         <MobileStoreButton
+        //                             style={{
+        //                                 height: "45px",
+        //                                 width: "250px"
+        //                             }}
+        //                             store="ios"
+        //                             url={""}
+        //                             linkProps={{ title: 'iOS Store Button' }}
+        //                         />
+        //                     </Box>
+        //                 </Box>
+        //             </Box>
+        //         </MuiThemeProvider>
+        //     );
+        // }
         return (
             <ApiServiceProvider value={apiService}>
                 <MuiThemeProvider theme={defaultTheme}>
