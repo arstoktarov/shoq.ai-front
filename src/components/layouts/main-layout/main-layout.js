@@ -46,13 +46,13 @@ const MainLayout = (props) => {
                         {/*<ListItemLink selected={location.pathname.startsWith('/universities')} primary="Вузы" to={'/'} icon={<StudyIcon />} />*/}
                         {/*<ListItemLink selected={location.pathname.startsWith('/stats')} primary="Статистика" to={'/'} icon={<StatisticsIcon />} />*/}
                         <ListItemLink selected={location.pathname.startsWith('/notifications')} primary="Уведомления" to={'/notifications'} icon={<NotificationsNoneIcon />} />
-                        {
+                        {/* {
                             user?.id ?
                             <ListItemLink selected={location.pathname.startsWith("/subscriptions")}
                                           primary="Подписки" to={`/subscriptions?user_id=${user?.id}`}
                                           icon={<AccountBalanceWalletOutlinedIcon/>}/>
                             : ""
-                        }
+                        } */}
                     </Menu>
                 }
                 <Box gridArea="main">

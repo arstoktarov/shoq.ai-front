@@ -1,4 +1,5 @@
 import {makeStyles} from "@material-ui/core/styles";
+import LoginSvgImage from "svg/login-image.svg";
 
 export default makeStyles((theme) => ({
     root: {
@@ -37,4 +38,12 @@ export default makeStyles((theme) => ({
     },
     button: {
     },
+    blurred: {
+        //"filter": "blur(4px)",
+        "-webkit-filter": "blur(4px)",
+    },
+    inDevelopmentBackground: {
+        backgroundImage: `url("${LoginSvgImage}")`,
+        backgroundSize: "800px 200px",
+    }
 }));

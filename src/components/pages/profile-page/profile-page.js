@@ -175,9 +175,19 @@ const ProfilePage = (props) => {
                         </Box>
                     </Box>
                 </Box>
-                <Box className={classes.card}>
-                    <Box height="500px">
-                        <TrialStatisticsSection />
+                <Box className={classes.card} position="relative">
+                    <Box className={classes.blurred}>
+                        <Box zIndex="9998" position="absolute" width="100%" height="100%" top="0" left="0" right="0"bottom="0"
+                            display="flex" flexDirection="row" justifyContent="center">
+                        </Box>
+                        {/* <Box height="500px">
+                            <TrialStatisticsSection />
+                        </Box> */}
+                    </Box>
+                    <Box className={classes.inDevelopmentBackground} height="200px" zIndex="9999" display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
+                        <Box ml={7}>
+                        <Typography>На стадии разработки</Typography>
+                        </Box>
                     </Box>
                 </Box>
 
