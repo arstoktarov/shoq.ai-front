@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '192px',
         outline: 0,
         "&::-webkit-scrollbar": {
-            //display: "none",
+            display: "none",
         }
     },
     header: {

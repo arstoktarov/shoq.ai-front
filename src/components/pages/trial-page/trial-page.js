@@ -34,9 +34,13 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
     root: {
         borderCollapse: "none",
+        cursor: "pointer",
         '&:nth-of-type(odd)': {
             backgroundColor: "#F7F9FA",
         },
+        '&:hover': {
+            backgroundColor: "#d0d0d0",
+         },
     },
 }))(TableRow);
 
