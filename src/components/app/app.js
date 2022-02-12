@@ -39,6 +39,7 @@ import SubscriptionsPage from "components/pages/subscriptions-page";
 import WebSubscriptionsPage from "components/pages/subscriptions-page/web-subscriptions-page";
 import {isMobile} from 'react-device-detect';
 import MobileStoreButton from 'react-mobile-store-button';
+import BaigePage from 'components/pages/baige-page/baige-page';
 
 class App extends Component {
 
@@ -50,44 +51,44 @@ class App extends Component {
     }
 
     render() {
-        // if (isMobile) {
-        //     return (
-        //         <MuiThemeProvider theme={defaultTheme}>
-        //             <Box>
-        //                 <Box>
-        //                     <ShoqaiBrandIcon height="100px" width="50px"/>
-        //                 </Box>
-        //                 <Box p={5} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-        //                     <Typography style={{
-        //                         textAlign: "center",
-        //                     }} fontFamily="Roboto" variant="h5">Shoq.ai доступен в мобильной версии</Typography>
-        //                 </Box>
-        //                 <Box display="flex" flexDirection="column" alignItems="center" marginLeft="10%">
-        //                     <MobileStoreButton
-        //                         style={{
-        //                             height: "70px",
-        //                             width: "250px"
-        //                         }}
-        //                         store="android"
-        //                         url={""}
-        //                         linkProps={{ title: 'iOS Store Button' }}
-        //                     />
-        //                     <Box pl="25px">
-        //                         <MobileStoreButton
-        //                             style={{
-        //                                 height: "45px",
-        //                                 width: "250px"
-        //                             }}
-        //                             store="ios"
-        //                             url={""}
-        //                             linkProps={{ title: 'iOS Store Button' }}
-        //                         />
-        //                     </Box>
-        //                 </Box>
-        //             </Box>
-        //         </MuiThemeProvider>
-        //     );
-        // }
+        if (isMobile) {
+            return (
+                <MuiThemeProvider theme={defaultTheme}>
+                    <Box>
+                        {/* <Box>
+                            <ShoqaiBrandIcon height="100px" width="50px"/>
+                        </Box> */}
+                        <Box p={5} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+                            <Typography style={{
+                                textAlign: "center",
+                            }} fontFamily="Roboto" variant="h5">Shoq.ai доступен в мобильной версии</Typography>
+                        </Box>
+                        <Box display="flex" flexDirection="column" alignItems="center" >
+                            <MobileStoreButton
+                                style={{
+                                    height: "70px",
+                                    width: "250px"
+                                }}
+                                store="android"
+                                url={"https://play.google.com/store/apps/details?id=org.shoqai.ent&hl=ru&gl=US"}
+                                linkProps={{ title: 'iOS Store Button' }}
+                            />
+                            <Box pl="25px">
+                                <MobileStoreButton
+                                    style={{
+                                        height: "45px",
+                                        width: "250px"
+                                    }}
+                                    store="ios"
+                                    url={"https://apps.apple.com/ru/app/shoq-ai-%D2%B1%D0%B1%D1%82-%D0%B4%D0%B0%D0%B9%D1%8B%D0%BD%D0%B4%D1%8B%D2%9B/id1567378442"}
+                                    linkProps={{ title: 'iOS Store Button' }}
+                                />
+                            </Box>
+                        </Box>
+                    </Box>
+                </MuiThemeProvider>
+            );
+        }
         return (
             <ApiServiceProvider value={apiService}>
                 <MuiThemeProvider theme={defaultTheme}>
@@ -122,6 +123,7 @@ class App extends Component {
                             <PrivateRoute exact path="/profile/friends" component={FriendsPage} />
                             <PrivateRoute exact path="/profile/searchFriend" component={SearchFriendPage} />
                             <PrivateRoute exact path="/notifications" component={NotificationsPage} />
+                            <PrivateRoute exact path="/baige" component={BaigePage} />
                         </Switch>
                     </MuiPickersUtilsProvider>
                 </MuiThemeProvider>

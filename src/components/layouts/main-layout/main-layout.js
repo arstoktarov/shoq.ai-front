@@ -5,7 +5,7 @@ import Header from "components/header";
 import Menu from "components/menu";
 import {ListItemLink} from "components/menu/List";
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import {ExamIcon, ProfileIcon} from "components/icons";
+import {ExamIcon, ProfileIcon, GiftIcon} from "components/icons";
 import {CoursesIcon} from "components/icons/icons";
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import {connect} from "react-redux";
@@ -41,7 +41,7 @@ const MainLayout = (props) => {
                     <Menu>
                         <ListItemLink selected={location.pathname.startsWith('/profile')} primary="Профиль" to={'/profile'} icon={<ProfileIcon />} />
                         <ListItemLink selected={location.pathname.startsWith('/subjects')} primary="Курсы" to={'/subjects'} icon={<CoursesIcon />} />
-                        {/*<ListItemLink selected={location.pathname.startsWith('/prizes')} primary="Призы" to={'/'} icon={<GiftIcon />} />*/}
+                        {/* <ListItemLink selected={location.pathname.startsWith('/baige')} primary="Байге" to={'/baige'} icon={<GiftIcon />} /> */}
                         <ListItemLink selected={location.pathname.startsWith('/trial')} primary="Пробный Тест" to={'/trial'} icon={<ExamIcon />} />
                         {/*<ListItemLink selected={location.pathname.startsWith('/universities')} primary="Вузы" to={'/'} icon={<StudyIcon />} />*/}
                         {/*<ListItemLink selected={location.pathname.startsWith('/stats')} primary="Статистика" to={'/'} icon={<StatisticsIcon />} />*/}
