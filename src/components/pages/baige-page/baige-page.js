@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Avatar, Box, IconButton, FormControl, MenuItem, Select,
     Table, TableBody, TableCell,
     TableContainer,
@@ -12,6 +12,10 @@ import FilledIconButton from "components/mui-customized/FilledIconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "components/mui-customized/Button";
 import {withStyles} from "@material-ui/core/styles";
+import {connect} from "react-redux";
+import {loadBaige} from "actions/baige-page-actions";
+import SubjectSelectivesSection from "../subjects-page/subjects-selectives-section";
+import {useHistory} from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
     root: {
@@ -60,10 +64,33 @@ const useStyles = makeStyles((theme) => ({
         margin: "0 12px 0 0",
         flexShrink: "0",
     },
+    startBaigeButton: {
+        width: "200px",
+        height: "35px",
+        "&:disabled": {
+            backgroundColor: "#5B7083",
+            color: "white",
+        },
+        disabled: {}
+    },
 }));
 
-const BaigePage = () => {
+const BaigePage = (props) => {
     const classes = useStyles();
+    const routerHistory = useHistory();
+
+    const { loadBaige, baigeData } = props;
+
+    useEffect(() => {
+        loadBaige();
+    }, []);
+
+    const { isBought = false, isBaigeActive = false, items = [], top = [], history = [] } = baigeData ?? {};
+
+    const onHistoryBaigeClick = (id) => (event) => {
+        localStorage.setItem("currentBaigeId", id);
+        routerHistory.push('/baige/test/result');
+    }
 
     return (
         <MainLayout>
@@ -75,7 +102,12 @@ const BaigePage = () => {
                             <Box mx={0.5}>
                                 <Typography align="center" className={classes.divider}>&bull;</Typography>
                             </Box>
-                            <Typography fontSize="1rem" htmlcolor="#ED2966"> вы учавствуете</Typography>
+                            {
+                                isBought ?
+                                <Typography fontSize="1rem" htmlcolor="#4ECD88"> вы учавствуете</Typography>
+                                :
+                                <Typography fontSize="1rem" htmlcolor="#ED2966"> вы не учавствуете</Typography>
+                            }
                         </Box>
                         <Box ml="auto" mr={3}>
                             <FilledIconButton style={{padding: 0, color: "#E8F5FE", backgroundColor: "#1DA1F2"}} variant="outlined"><HelpRoundedIcon /></FilledIconButton>
@@ -85,19 +117,41 @@ const BaigePage = () => {
                 <Box className={classes.card}>
                     <Box display="flex" flexDirection="row" px={3} pt={3} pb={3} mt={1}>
                         {
-                            [1,2,3,4,5,6].map((item) => (
-                                <Box mx={2} overflow="hidden" style={{
+                            items.map((item) => (
+                                <Box key={item.day} mx={2} overflow="hidden" style={{
                                     border: "1px solid #CCD4E1",
                                     borderRadius: "5px",
                                     width: "64px", 
                                 }}>
                                     <Box display="flex" flexDirection="column" alignItems="center">
-                                        <Typography fontFamily="Roboto" fontSize="22px" fontWeight="bolder">24</Typography>
-                                        <Typography customVariant="littleTextRoboto">Пн</Typography>
+                                        <Typography fontFamily="Roboto" fontSize="22px" fontWeight="bolder">{item.day}</Typography>
+                                        <Typography customVariant="littleTextRoboto">{item.weekDay}</Typography>
                                     </Box>
-                                    <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
-                                        <Typography htmlcolor="white" fontSize="14px">провал</Typography>
-                                    </Box>
+                                    {
+                                        item.isBaige ?
+                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                            <Typography htmlcolor="white" fontSize="14px">байге</Typography>
+                                        </Box>
+                                        :
+                                        item.status === -1 ?
+                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                            <Typography htmlcolor="white" fontSize="14px">провал</Typography>
+                                        </Box>
+                                        :
+                                        item.status === 0 ?
+                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                            <Typography htmlcolor="white" fontSize="14px">ждем</Typography>
+                                        </Box>
+                                        :
+                                        item.status === 1 ?
+                                        <Box bgcolor="#4ECD88" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                            <Typography htmlcolor="white" fontSize="14px">пройден</Typography>
+                                        </Box>
+                                        :
+                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                            <Typography htmlcolor="white" fontSize="14px">ждем</Typography>
+                                        </Box>
+                                    }
                                 </Box>
                                 // <Box key={item} className={classes.baigeDay}>
                                 //     <Box height="100%" width="100%" display="flex" flexDirection="column" justifyContent="space-between">
@@ -124,52 +178,12 @@ const BaigePage = () => {
                         }
                     </Box>
                     <Box p={5} display="flex" flexDirection="row" alignItems="center">
-                        <Typography>Предметы:</Typography>
-                        <Box display="flex" flexDirection="row">
-                            <Box ml={3}>
-                                <FormControl className={classes.formControl}>
-                                    <Select
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
-                                        value={"not chosen"}
-                                        onChange={() => {}}
-                                        label="Age"
-                                    >
-                                        <MenuItem value="not chosen">Не выбрано</MenuItem>
-                                        {
-                                            [1,2,3,4,5].map((item) => (
-                                                <MenuItem key={item} value={item}>asdwqeq</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                </FormControl>
-                            </Box>
-                            <Box ml={3}>
-                                <FormControl className={classes.formControl}>
-                                    <Select
-                                        disabled={false}
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
-                                        value={"not chosen"}
-                                        onChange={() => {}}
-                                        label="Age"
-                                    >
-                                        <MenuItem value="not chosen">Не выбрано</MenuItem>
-                                        {
-                                            [1,2,3,4,5].map((item) => (
-                                                <MenuItem key={item} value={item}>asdasd</MenuItem>
-                                            ))
-                                        }
-                                    </Select>
-                                </FormControl>
-                            </Box>
+                        <Box>
+                            <SubjectSelectivesSection />
                         </Box>
                     </Box>
                     <Box my={3} width="100%" mt={1} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                        <Button style={{
-                            width: "200px",
-                            height: "35px",
-                        }} variant="contained" color="primary">Начать байге</Button>
+                        <Button className={classes.startBaigeButton} disabled={!isBought} variant="contained" color="primary">Начать байге</Button>
                     </Box>
                 </Box>
                 <Box className={classes.card}>
@@ -179,18 +193,24 @@ const BaigePage = () => {
                         </Box>
                         <Box mt={2}>
                         {
-                            [1,2,3,4].map((item) => (
-                                <Box key={item} borderBottom="1px solid #CCD4E1" px={4} py={2} display="flex" flexDirection="row" alignItems="center">
+                            top.map(({friend, point, prize}) => (
+                                <Box key={friend.id} borderBottom="1px solid #CCD4E1" px={4} py={2} display="flex" flexDirection="row" alignItems="center">
                                     <Avatar
                                         style={{width: "50px", height: "50px"}}
+                                        src={friend.avatar ?? "a"}
                                     />
-                                    <Box ml={2}>
-                                        <Typography fontSize="16px" fontWeight="700px">Нуртай Жандос</Typography>
-                                        <Typography customVariant="subtitleRoboto">@nurtaims</Typography>
+                                    <Box ml={2} width="200px">
+                                        <Typography fontSize="16px" fontWeight="700px">{friend.fullName}</Typography>
+                                        <Typography customVariant="littleTextRoboto" fontWeight="bolder">{friend.username ?? ""}</Typography>
+                                    </Box>
+                                    <Box ml={10}>
+                                        <Typography customVariant="littleTextRoboto" fontWeight="bolder">{prize}</Typography>
+                                    </Box>
+                                    <Box ml="auto">
+                                        <Typography customVariant="bodyRoboto" fontSize="16px" fontWeight="900">{point}</Typography>
                                     </Box>
                                 </Box>
                             ))
-                            
                         }
                         </Box>
                     </Box>
@@ -205,38 +225,48 @@ const BaigePage = () => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="left">
-                                            <Typography customVariant="subtitleRoboto">
+                                            <Typography customVariant="littleTextRoboto">
                                                 Начало
                                             </Typography>
                                             </StyledTableCell>
                                         <StyledTableCell align="left">
-                                            <Typography customVariant="subtitleRoboto">
-                                                Результаты
+                                            <Typography customVariant="littleTextRoboto">
+                                                Длительность
                                             </Typography>
                                         </StyledTableCell>
                                         <StyledTableCell align="left">
-                                            <Typography customVariant="subtitleRoboto">
-                                                Длительность
+                                            <Typography customVariant="littleTextRoboto">
+                                                Предметы
+                                            </Typography>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="left">
+                                            <Typography customVariant="littleTextRoboto">
+                                                Результаты
                                             </Typography>
                                         </StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {[1,2,3,4,5,6].map((item, idx) => (
-                                        <StyledTableRow key={idx}>
+                                    {history.map((item) => (
+                                        <StyledTableRow onClick={onHistoryBaigeClick(item.id)} key={item.id}>
                                             <StyledTableCell component="th" scope="row">
-                                                <Typography customVariant="subtitleRoboto">
-                                                    asdasdasdasdasdasd
+                                                <Typography customVariant="littleTextRoboto">
+                                                    {new Date(item.startData).toISOString().substr(0, 10)}
                                                 </Typography>
                                             </StyledTableCell>
                                             <StyledTableCell align="left">
-                                                <Typography customVariant="subtitleRoboto">
-                                                    asdasdasdasdasdasd
+                                                <Typography customVariant="littleTextRoboto">
+                                                    {new Date(1000 * (item.secElapsed ?? 0)).toISOString().substr(11, 8)}
                                                 </Typography>
                                             </StyledTableCell>
                                             <StyledTableCell align="left">
-                                                <Typography customVariant="subtitleRoboto">
-                                                    asdasdasdasdasdasd
+                                                <Typography customVariant="littleTextRoboto">
+                                                    {`${item.selective.key}/${item.selective.pair.key}`}
+                                                </Typography>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Typography customVariant="littleTextRoboto">
+                                                    {item.point}
                                                 </Typography>
                                             </StyledTableCell>
                                         </StyledTableRow>
@@ -249,7 +279,18 @@ const BaigePage = () => {
             </Box>
         </MainLayout>
     );
-
 }
 
-export default BaigePage;
+const mapStateToProps = ({ baigePage }) => {
+    return {
+        baigeData: baigePage.baigeData,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadBaige: () => dispatch(loadBaige()),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BaigePage);

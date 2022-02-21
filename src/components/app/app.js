@@ -40,6 +40,8 @@ import WebSubscriptionsPage from "components/pages/subscriptions-page/web-subscr
 import {isMobile} from 'react-device-detect';
 import MobileStoreButton from 'react-mobile-store-button';
 import BaigePage from 'components/pages/baige-page/baige-page';
+import BaigeTestPage from 'components/pages/baige-test-page/baige-test-page';
+import BaigeTestResult from "components/pages/baige-test-page/baige-test-result";
 
 class App extends Component {
 
@@ -124,6 +126,8 @@ class App extends Component {
                             <PrivateRoute exact path="/profile/searchFriend" component={SearchFriendPage} />
                             <PrivateRoute exact path="/notifications" component={NotificationsPage} />
                             <PrivateRoute exact path="/baige" component={BaigePage} />
+                            <PrivateRoute exact path="/baige/test" component={BaigeTestPage} />
+                            <PrivateRoute exact path="/baige/test/result" component={BaigeTestResult} />
                         </Switch>
                     </MuiPickersUtilsProvider>
                 </MuiThemeProvider>

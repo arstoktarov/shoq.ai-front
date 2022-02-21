@@ -422,6 +422,49 @@ class ApiService {
         console.log(data);
         return data;
     }
+
+    getBaigeData = async () => {
+        const { data } = await this.session.get('/authed/profile/baige/get');
+        console.log('Baige data', data);
+        return data;
+    }
+
+    getBaigeById = async (baigeId) => {
+        const { data } = await this.session.get(`/authed/profile/baige/baige_get/${baigeId}`);
+        return data;
+    }
+
+    startBaige = async () => {
+        const { data } = await this.session.get('/authed/profile/baige/start');
+        return data;
+    }
+    
+    baigeRunning = async (trialId, moveTo, questionResultData) => {
+        const { data } = await this.session.post('/authed/profile/baige/baige_running', {
+            trailId: trialId,
+            moveTo,
+            questionResultData,
+        });
+        return data;
+    }
+
+    baigeEnded = async (trialId, moveTo, questionResultData) => {
+        const { data } = await this.session.post('/authed/profile/baige/baige_ended', {
+            trailId: trialId,
+            moveTo,
+            questionResultData,
+        });
+        return data;
+    }
+
+    baigeFinal = async (trialId, mode, questionResultData) => {
+        const { data } = await this.session.post('/authed/profile/baige/baige_final', {
+            trailId: trialId,
+            mode,
+            questionResultData,
+        });
+        return data;
+    }
 }
 
 export default ApiService.instance;

@@ -4,6 +4,7 @@ import {Avatar, Box, Menu, MenuItem, Typography} from "@material-ui/core";
 import {connect} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {ShoqaiBrandIcon} from "components/icons";
+import ShoqaiIcon from 'svg/full-white.svg';
 import apiService from "services/api-service";
 
 const useStyles = makeStyles({
@@ -83,7 +84,11 @@ const Header = (props) => {
             <Box className={`${classes.header} ${classes.headerFont}`}>
                 <Box flexGrow="2" />
                 <Box ml={2} flexGrow="2" className={classes.headerSection} onClick={onBrandClick}>
-                    <ShoqaiBrandIcon />
+                    <img style={{
+                        width: "25px",
+                        height: "25px",
+                        marginRight: "10px",
+                    }} src={ShoqaiIcon} alt="React Logo" />
                     <Typography className={`${classes.headerFont} ${classes.headerLogo}`}>
                         Shoqai
                     </Typography>

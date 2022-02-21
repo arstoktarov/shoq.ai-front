@@ -17,6 +17,8 @@ import OOFPageReducer from "./oof-page-reducer";
 import notificationsPageReducer from "./notifications-page-reducer";
 import subscriptionsPageReducer from "./subscriptions-page-reducer";
 import selectivesReducer from "./selectives-reducer";
+import baigePageReducer from "./baige-page-reducer";
+import baigeTestReducer from "./baige-test-reducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -37,6 +39,8 @@ const rootReducer = combineReducers({
     OOFPage: OOFPageReducer,
     notificationsPage: notificationsPageReducer,
     subscriptionsPage: subscriptionsPageReducer,
+    baigePage: baigePageReducer,
+    baigeTest: baigeTestReducer,
 });
 
 export default rootReducer;

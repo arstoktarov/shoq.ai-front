@@ -1,0 +1,70 @@
+import {makeStyles} from "@material-ui/core/styles";
+
+export default makeStyles((theme) => ({
+    root: (props) => ({
+        padding: "20px 10px",
+        borderRadius: "20px",
+        backgroundColor: "#F7F9FA",
+        width: "100%",
+        minHeight: "45px",
+        marginBottom: "10px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        color: "grey",
+    }),
+    selected: () => ({
+        padding: "20px 10px",
+        borderRadius: "20px",
+        backgroundColor: theme.palette.primary.main,
+        width: "100%",
+        minHeight: "45px",
+        marginBottom: "10px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        color: "#FFFFFF",
+    }),
+    correct: (props) => ({
+        padding: "20px 10px",
+        borderRadius: "20px",
+        backgroundColor: "#D7ECD9",
+        width: "100%",
+        minHeight: "45px",
+        marginBottom: "10px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        //color: "#FFFFFF",
+    }),
+    incorrect: (props) => ({
+        padding: "20px 10px",
+        borderRadius: "20px",
+        backgroundColor: "#F5D5CB",
+        //color: "white",
+        width: "100%",
+        minHeight: "45px",
+        marginBottom: "10px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start"
+    }),
+    text: (props) => ({
+        fontSize: "0.8rem",
+        color: "inherit",
+        fontWeight: "lighter",
+        fontFamily: "Roboto, Raleway, sans-serif",
+        textAlign: "start",
+    }),
+    number: {
+        margin: "0 20px",
+        backgroundColor: "white",
+    },
+    doneButton: {
+        color: props => props.selected ? "#1da1f2" : "#CCD4E1"
+    },
+}));
