@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 import {loadBaige} from "actions/baige-page-actions";
 import SubjectSelectivesSection from "../subjects-page/subjects-selectives-section";
 import {useHistory} from "react-router-dom";
+import SelectivesSection from "components/pages/trial-page/selectives-section";
 
 const StyledTableCell = withStyles((theme) => ({
     root: {
@@ -73,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
         },
         disabled: {}
     },
+    baigeText: {
+        lineHeight: "1.2",
+    }
 }));
 
 const BaigePage = (props) => {
@@ -118,37 +122,43 @@ const BaigePage = (props) => {
                     <Box display="flex" flexDirection="row" px={3} pt={3} pb={3} mt={1}>
                         {
                             items.map((item) => (
-                                <Box key={item.day} mx={2} overflow="hidden" style={{
-                                    border: "1px solid #CCD4E1",
+                                <Box boxSizing="border-box" position="relative" border={item.isBaige ? "5px solid #F2994A" : "1px solid #CCD4E1"} overflow="hidden" key={item.day} mx={2} style={{
                                     borderRadius: "5px",
                                     width: "64px", 
                                 }}>
                                     <Box display="flex" flexDirection="column" alignItems="center">
-                                        <Typography fontFamily="Roboto" fontSize="22px" fontWeight="bolder">{item.day}</Typography>
+                                        {
+                                            !item.isBaige ?
+                                                <Typography fontFamily="Roboto" fontSize="22px" fontWeight="bolder">{item.day}</Typography>
+                                            :
+                                            <Typography className={classes.baigeText} fontFamily="Roboto" fontSize="22px" fontWeight="bolder">{item.day}</Typography>
+                                        }
                                         <Typography customVariant="littleTextRoboto">{item.weekDay}</Typography>
                                     </Box>
                                     {
                                         item.isBaige ?
-                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
-                                            <Typography htmlcolor="white" fontSize="14px">байге</Typography>
+                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="22px">
+                                            <Box mt={0.3}>
+                                                <Typography htmlcolor="white" fontSize="14px">байге</Typography>
+                                            </Box>
                                         </Box>
                                         :
                                         item.status === -1 ?
-                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="23px">
                                             <Typography htmlcolor="white" fontSize="14px">провал</Typography>
                                         </Box>
                                         :
                                         item.status === 0 ?
-                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                        <Box bgcolor="#F2994A" display="flex" flexDirection="column" alignItems="center" width="100%" height="23px">
                                             <Typography htmlcolor="white" fontSize="14px">ждем</Typography>
                                         </Box>
                                         :
                                         item.status === 1 ?
-                                        <Box bgcolor="#4ECD88" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                        <Box bgcolor="#4ECD88" display="flex" flexDirection="column" alignItems="center" width="100%" height="23px">
                                             <Typography htmlcolor="white" fontSize="14px">пройден</Typography>
                                         </Box>
                                         :
-                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="20px">
+                                        <Box bgcolor="#ED2966" display="flex" flexDirection="column" alignItems="center" width="100%" height="23px">
                                             <Typography htmlcolor="white" fontSize="14px">ждем</Typography>
                                         </Box>
                                     }
@@ -179,11 +189,11 @@ const BaigePage = (props) => {
                     </Box>
                     <Box p={5} display="flex" flexDirection="row" alignItems="center">
                         <Box>
-                            <SubjectSelectivesSection />
+                            <SelectivesSection />
                         </Box>
                     </Box>
                     <Box my={3} width="100%" mt={1} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                        <Button className={classes.startBaigeButton} disabled={!isBought} variant="contained" color="primary">Начать байге</Button>
+                        <Button className={classes.startBaigeButton} disabled={!isBought && !isBaigeActive} variant="contained" color="primary">Начать байге</Button>
                     </Box>
                 </Box>
                 <Box className={classes.card}>

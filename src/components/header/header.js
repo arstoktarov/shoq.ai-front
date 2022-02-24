@@ -29,7 +29,10 @@ const useStyles = makeStyles({
         alignItems: "center",
         cursor: "pointer",
     },
-    headerLogo: { display: "flex", alignItems: "center" },
+    headerLogo: { 
+        display: "flex", 
+        alignItems: "center",
+    },
     headerFont: {
         fontFamily: "Raleway, sans-serif",
         fontWeight: "700",
@@ -89,7 +92,7 @@ const Header = (props) => {
                         height: "25px",
                         marginRight: "10px",
                     }} src={ShoqaiIcon} alt="React Logo" />
-                    <Typography className={`${classes.headerFont} ${classes.headerLogo}`}>
+                    <Typography color="primary" className={`${classes.headerFont} ${classes.headerLogo}`}>
                         Shoqai
                     </Typography>
                 </Box>
