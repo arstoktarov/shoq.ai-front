@@ -96,6 +96,10 @@ const BaigePage = (props) => {
         routerHistory.push('/baige/test/result');
     }
 
+    const onStartBaigeClick = () => {
+        routerHistory.push('/baige/test');
+    }
+
     return (
         <MainLayout>
             <Box className={classes.root}>
@@ -193,7 +197,7 @@ const BaigePage = (props) => {
                         </Box>
                     </Box>
                     <Box my={3} width="100%" mt={1} display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                        <Button className={classes.startBaigeButton} disabled={!isBought && !isBaigeActive} variant="contained" color="primary">Начать байге</Button>
+                        <Button onClick={onStartBaigeClick} className={classes.startBaigeButton} disabled={!isBought && !isBaigeActive} variant="contained" color="primary">Начать байге</Button>
                     </Box>
                 </Box>
                 <Box className={classes.card}>
